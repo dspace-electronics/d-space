@@ -59,7 +59,6 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
             {/* Left Column: Image & Stock */}
             <div className="relative bg-gray-50 dark:bg-white/5 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100 dark:border-white/10">
               <div className="relative h-60 w-full rounded-2xl overflow-hidden bg-white dark:bg-black shadow-xs border border-gray-100 dark:border-white/10 flex items-center justify-center">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={product.images?.[0] || product.imageUrl || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85'}
                   alt={product.title}

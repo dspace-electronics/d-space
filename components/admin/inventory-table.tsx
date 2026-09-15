@@ -72,7 +72,6 @@ export function InventoryTable() {
                 <td className="py-3 px-4">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-lg bg-gray-100 overflow-hidden shrink-0 border border-gray-200">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={
                           item.images?.[0] ||

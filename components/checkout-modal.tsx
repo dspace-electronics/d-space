@@ -29,8 +29,6 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
   const [step, setStep] = useState<'form' | 'success'>('form');
   const [confirmedOrderId, setConfirmedOrderId] = useState<string>('');
 
-  if (!isOpen) return null;
-
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerName || !phone || !address) {
@@ -107,6 +105,8 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     onClose();
     router.push(`/tracking/${confirmedOrderId}`);
   };
+
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>

@@ -111,7 +111,6 @@ export function CartDrawer() {
                     items.map(({ product, quantity }) => (
                       <div key={product.id} className="py-4 first:pt-0 last:pb-0 flex gap-3">
                         <div className="h-16 w-16 rounded-xl bg-gray-50 overflow-hidden shrink-0 border border-gray-100">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={product.imageUrl || fallbackImage}
                             alt={product.title}

@@ -330,6 +330,7 @@ export const PRODUCTS: Product[] = RAW_PRODUCTS.map((p) => {
     stock: p.stockCount || 50,
     stockCount: p.stockCount || 50,
     blrHubStock: p.blrHubStock || 15,
+    inStock: (p.stockCount ?? 50) > 0,
     rating: p.rating || 4.8,
     reviewsCount: p.reviewsCount || 10,
     imageUrl: p.images?.[0] || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85',

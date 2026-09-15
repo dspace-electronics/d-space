@@ -46,7 +46,27 @@ export default function OrderConfirmationPage({
 
   const order = orders.find(
     (o: Order) => o.id.toLowerCase() === orderId.toLowerCase() || o.orderNumber.toLowerCase() === orderId.toLowerCase()
-  ) || orders[0];
+  ) || (orders.length > 0 ? orders[0] : undefined);
+
+  if (!order) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 pt-28 pb-20 text-center space-y-4">
+        <div className="w-16 h-16 rounded-2xl bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10 flex items-center justify-center mx-auto text-neutral-400">
+          <ShoppingBag className="w-8 h-8" />
+        </div>
+        <h2 className="text-xl font-bold text-neutral-900 dark:text-white">Order Not Found</h2>
+        <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
+          We couldn&apos;t find order <span className="font-mono font-bold">{orderId}</span>. It may still be processing or the order ID is invalid.
+        </p>
+        <Link
+          href="/shop"
+          className="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-neutral-950 text-xs font-bold px-5 py-3 rounded-xl transition-colors"
+        >
+          Return to Shop <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">

@@ -157,7 +157,6 @@ export function Hero() {
 
               {/* Product Image Stage */}
               <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100/60 p-4 flex items-center justify-center mb-4 border border-gray-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={activeProduct.imageUrl}
                   alt={activeProduct.title}

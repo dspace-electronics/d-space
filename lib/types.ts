@@ -100,6 +100,7 @@ export interface OrderMilestone {
   description: string;
   time: string;
   completed: boolean;
+  isCurrent?: boolean;
 }
 
 export type DeliveryMilestone = OrderMilestone;

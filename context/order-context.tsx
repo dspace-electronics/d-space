@@ -157,8 +157,8 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
       const filtered = prev.filter((o) => o.id !== fullOrder.id && o.orderNumber !== fullOrder.orderNumber);
       const updated = [fullOrder, ...filtered];
       try {
-        localStorage.setItem('dspace_orders_v2', JSON.stringify(updated));
-        window.dispatchEvent(new CustomEvent('dspace_orders_v2_updated', { detail: updated }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        window.dispatchEvent(new CustomEvent('dspace_orders_v3_updated', { detail: updated }));
       } catch {
         // ignore
       }
@@ -224,8 +224,8 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     setOrders((prev) => {
       const updated = [newOrder, ...prev.filter((o) => o.id !== newOrder.id)];
       try {
-        localStorage.setItem('dspace_orders_v2', JSON.stringify(updated));
-        window.dispatchEvent(new CustomEvent('dspace_orders_v2_updated', { detail: updated }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        window.dispatchEvent(new CustomEvent('dspace_orders_v3_updated', { detail: updated }));
       } catch {
         // ignore
       }
