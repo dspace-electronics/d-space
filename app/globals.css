@@ -1,26 +1,179 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #fbfbfd;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #e51e2b;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #e2e8f0;
+  --accent-foreground: #0f172a;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #e51e2b;
+  --radius: 0.85rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #090a0f;
+  --foreground: #f3f4f6;
+  --card: #0e1117;
+  --card-foreground: #f3f4f6;
+  --popover: #0e1117;
+  --popover-foreground: #f3f4f6;
+  --primary: #e51e2b;
+  --primary-foreground: #ffffff;
+  --secondary: #161a23;
+  --secondary-foreground: #f3f4f6;
+  --muted: #161a23;
+  --muted-foreground: #9ca3af;
+  --accent: #1c212c;
+  --accent-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #e51e2b;
+  --radius: 0.85rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-dspace-red: #e51e2b;
+  --color-dspace-dark: #111827;
+  --color-dspace-slate: #1f2937;
+  --font-sans: var(--font-sans-custom), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono-custom), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-display-custom), var(--font-sans-custom), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Apple Design Typography Guidelines */
+.display-title {
+  letter-spacing: -0.025em;
+  line-height: 1.1;
 }
+
+.heading-tight {
+  letter-spacing: -0.018em;
+}
+
+/* Apple Design Materials & Depth: Translucent glass with crisp light edges */
+.glass-chrome {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+.glass-floating {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.apple-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  transition: all 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.apple-card:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.03);
+  transform: translateY(-2px);
+}
+
+/* Apple Direct Manipulation & Tactile Press Response */
+.apple-btn-press {
+  transition: transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.apple-btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Smooth custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+
+/* Pulse animation for live delivery beacon */
+@keyframes beacon-ping {
+  0% { transform: scale(1); opacity: 0.9; }
+  70% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.beacon-pulse {
+  animation: beacon-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Typed.js glowing cursor */
+.typed-cursor {
+  font-weight: 200;
+  color: #ff4b55;
+  text-shadow: 0 0 14px rgba(229, 30, 43, 0.9);
+  margin-left: 3px;
+  animation: typed-blink 0.8s infinite;
+}
+
+@keyframes typed-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* OpenStreetMap Tiles Dark Mode Styling (Watermark-free, zero API key) */
+.dark .leaflet-tile {
+  filter: brightness(0.6) invert(1) contrast(1.2) hue-rotate(200deg) saturate(0.2) brightness(0.85);
+}
+
+.dark .leaflet-container {
+  background-color: #0b0f17 !important;
+}
+
