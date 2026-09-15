@@ -51,5 +51,9 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.13",
     "typescript": "^5"
+  },
+  "optionalDependencies": {
+    "lightningcss-darwin-arm64": "^1.33.0",
+    "lightningcss-darwin-x64": "^1.33.0"
   }
 }
