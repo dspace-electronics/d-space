@@ -73,7 +73,7 @@ export interface TrackingStep {
   isCurrent: boolean;
 }
 
-export function getMilestonesForStatus(status: OrderStatus, createdAtStr: string): DeliveryMilestone[] {
+export function getMilestonesForStatus(status: OrderStatus, _createdAtStr?: string): DeliveryMilestone[] {
   const statuses: OrderStatus[] = ['placed', 'packed', 'driver_assigned', 'in_transit', 'delivered'];
   const currentIndex = statuses.indexOf(status);
 

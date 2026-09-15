@@ -31,7 +31,7 @@ export const CATEGORIES: { id: ProductCategory; name: string; description: strin
   },
 ];
 
-const RAW_PRODUCTS: any[] = [
+const RAW_PRODUCTS: Product[] = [
   // ==========================================
   // 1. ESP32-S3 DevKitC-1 N8R8
   // ==========================================

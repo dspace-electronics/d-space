@@ -8,8 +8,8 @@ export const isDrizzleConfigured = () => {
   return typeof connectionString === 'string' && connectionString.startsWith('postgres');
 };
 
-let client: any = null;
-let dbInstance: any = null;
+let client: ReturnType<typeof postgres> | null = null;
+let dbInstance: ReturnType<typeof drizzle<typeof schema>> | null = null;
 
 if (isDrizzleConfigured()) {
   try {

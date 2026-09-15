@@ -38,7 +38,7 @@ export function Announcement4({
   return (
     <div className={`w-full flex items-center justify-center p-2 sm:px-4 sm:py-2.5 ${className}`}>
       <div className="relative isolate flex w-full max-w-7xl items-center justify-between overflow-hidden rounded-xl border border-neutral-200/80 bg-neutral-900/95 text-white px-3 sm:px-5 py-2 shadow-xs backdrop-blur-md">
-        {/* Subtle Ambient Background Gradients */}
+        {/* Subtle Ambient Background Gradients from Watermelon announcement-4 */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute top-1/2 left-[max(-7rem,calc(50%-52rem))] -z-10 -translate-y-1/2 transform-gpu blur-2xl"

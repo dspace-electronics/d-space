@@ -1,6 +1,13 @@
+import { CartItem } from '@/lib/types';
+
+interface RazorpayInstance {
+  open: () => void;
+  on: (event: string, callback: (resp: { error?: { description?: string } }) => void) => void;
+}
+
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
   }
 }
 
@@ -77,7 +84,7 @@ export async function openRazorpayCheckout({
   onError,
 }: {
   amountInRupees: number;
-  items?: any[];
+  items?: CartItem[];
   blrZoneId?: string;
   promoCode?: string;
   courierOption?: string;
@@ -89,92 +96,70 @@ export async function openRazorpayCheckout({
   onCancel?: () => void;
   onError?: (errMessage: string) => void;
 }) {
-  const loaded = await loadRazorpayScript();
-
-  if (!loaded || !window.Razorpay) {
-    console.warn('Razorpay SDK could not be loaded into DOM.');
-    if (onError) onError('Could not load Razorpay gateway. Check internet connectivity.');
+  const isLoaded = await loadRazorpayScript();
+  if (!isLoaded || !window.Razorpay) {
+    if (onError) onError('Could not load Razorpay gateway. Please check your internet connection.');
     return;
   }
-
-  const razorpayKey =
-    process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
-    process.env.RAZORPAY_KEY_ID;
-
-  let serverOrderId: string | undefined;
 
   try {
     const res = await fetch('/api/razorpay/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amountInRupees,
+        amount: amountInRupees,
         items,
         blrZoneId,
         promoCode,
         courierOption,
-        receipt: `rcpt_${orderNumber.replace(/[^a-zA-Z0-9]/g, '_')}`,
         customerName,
-        customerEmail,
         customerPhone,
+        customerEmail,
+        orderNumber,
       }),
     });
 
-    if (res.ok) {
-      const data = await res.json();
-      if (data.orderId) {
-        serverOrderId = data.orderId;
-      }
-    } else {
-      const err = await res.json().catch(() => ({}));
-      if (err.error) {
-        if (onError) onError(err.error);
-        return;
-      }
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      const msg = data.error || 'Failed to create order with Razorpay server.';
+      if (onError) onError(msg);
+      return;
     }
-  } catch (err) {
-    console.warn('Could not create server-side Razorpay order:', err);
-  }
 
-  try {
+    const { orderId, keyId, amount } = data;
+
     const options: RazorpayOptions = {
-      key: razorpayKey,
-      amount: Math.round(Number(amountInRupees) * 100),
+      key: keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+      amount: amount || Math.round(amountInRupees * 100),
       currency: 'INR',
       name: 'Dspace Electronics',
-      description: `Payment for Order #${orderNumber} (Bengaluru Porter Express Dispatch)`,
+      description: `Bengaluru Porter Dispatch — Order #${orderNumber}`,
       image: '/dspace-logo.jpeg',
-      order_id: serverOrderId,
-      handler: async (response) => {
-        // Cryptographically verify the payment signature with the server
-        if (response.razorpay_order_id && response.razorpay_signature) {
-          try {
-            const verifyRes = await fetch('/api/razorpay/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
+      order_id: orderId,
+      handler: async function (response) {
+        try {
+          const verifyRes = await fetch('/api/razorpay/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id || orderId,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              orderNumber,
+            }),
+          });
 
-            const verifyData = await verifyRes.json();
-            if (!verifyRes.ok || !verifyData.verified) {
-              if (onError) onError('Payment signature verification failed. Please contact support.');
-              return;
-            }
-          } catch (verifyErr) {
-            console.error('Signature verification network error:', verifyErr);
-            if (onError) onError('Could not verify payment signature. Transaction pending review.');
-            return;
+          const verifyData = await verifyRes.json();
+          if (verifyRes.ok && verifyData.success) {
+            onSuccess(response.razorpay_payment_id);
+          } else {
+            const err = verifyData.error || 'Cryptographic payment signature validation failed.';
+            console.warn('Payment verification issue:', err);
+            if (onError) onError(err);
           }
-        }
-
-        if (response.razorpay_payment_id) {
-          onSuccess(response.razorpay_payment_id);
-        } else {
-          onSuccess(`pay_rzp_${Math.random().toString(36).substring(2, 10).toUpperCase()}`);
+        } catch (vErr) {
+          console.error('Error during signature verification:', vErr);
+          if (onError) onError('Verification request failed. Please check order status.');
         }
       },
       prefill: {
@@ -199,7 +184,7 @@ export async function openRazorpayCheckout({
 
     const rzp = new window.Razorpay(options);
 
-    rzp.on('payment.failed', function (resp: any) {
+    rzp.on('payment.failed', function (resp: { error?: { description?: string } }) {
       console.warn('Razorpay payment failed or was declined:', resp.error);
       if (onError) {
         onError(resp.error?.description || 'Payment was declined by bank/UPI.');
@@ -209,8 +194,9 @@ export async function openRazorpayCheckout({
     });
 
     rzp.open();
-  } catch (err: any) {
-    console.error('Razorpay initialization exception:', err);
-    if (onError) onError(err.message || 'Razorpay initialization failed.');
+  } catch (err) {
+    const error = err as Error;
+    console.error('Razorpay initialization exception:', error);
+    if (onError) onError(error.message || 'Razorpay initialization failed.');
   }
 }
