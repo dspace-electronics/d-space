@@ -8,7 +8,6 @@ import { useSearch } from '@/context/search-context';
 import { useTheme } from '@/context/theme-context';
 import { useRouter } from 'next/navigation';
 import Typed from 'typed.js';
-import { useProducts } from '@/context/product-context';
 
 function TypewriterHighlight({ isDark }: { isDark: boolean }) {
   const el = useRef<HTMLSpanElement>(null);
@@ -51,6 +50,8 @@ function TypewriterHighlight({ isDark }: { isDark: boolean }) {
     </span>
   );
 }
+
+import { useProducts } from '@/context/product-context';
 
 function ComponentCarouselTicker({ isDark }: { isDark: boolean }) {
   const { products } = useProducts();
@@ -175,6 +176,14 @@ export function Hero39({
     },
   };
 
+  const logosContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08, delayChildren: 0.25 },
+    },
+  };
+
   return (
     <div className={`relative w-full min-h-[88vh] lg:min-h-[92vh] flex flex-col justify-center items-center overflow-visible ${className}`}>
       {/* ── Background Image & Atmospheric Lighting ── */}
@@ -205,7 +214,7 @@ export function Hero39({
         )}
       </div>
 
-      {/* ── Main Hero Content ── */}
+      {/* ── Main Hero Content (Shifted very slightly down) ── */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-36 lg:pt-40 pb-16 sm:pb-20 w-full flex flex-col justify-center items-center text-center">
         <motion.div
           variants={contentContainerVariants}
@@ -234,7 +243,7 @@ export function Hero39({
             </Link>
           </motion.div>
 
-          {/* Main Title with Luxury Serif Typography & Typewriter */}
+          {/* Main Title with The Seasons Style Luxury Serif Typography & Typewriter */}
           <motion.h1
             variants={itemVariants}
             className={`mt-6 text-[2.75rem] sm:text-[3.75rem] md:text-[4.65rem] lg:text-[5.35rem] leading-[1.05] font-display text-balance ${
