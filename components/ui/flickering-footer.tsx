@@ -140,15 +140,15 @@ interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
 export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   squareSize = 3,
   gridGap = 3,
-  flickerChance = 0.2,
-  color = "#B4B4B4",
+  flickerChance = 0.25,
+  color = "#e51e2b",
   width,
   height,
   className,
-  maxOpacity = 0.15,
+  maxOpacity = 0.6,
   text = "",
-  fontSize = 140,
-  fontWeight = 600,
+  fontSize = 100,
+  fontWeight = 900,
   ...props
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -169,63 +169,53 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       rows: number,
       squares: Float32Array,
       dpr: number,
+      textMask: Uint8Array,
+      time: number,
     ) => {
       ctx.clearRect(0, 0, width, height);
 
-      const maskCanvas = document.createElement("canvas");
-      maskCanvas.width = width;
-      maskCanvas.height = height;
-      const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
-      if (!maskCtx) return;
-
-      if (text) {
-        maskCtx.save();
-        maskCtx.scale(dpr, dpr);
-        maskCtx.fillStyle = "white";
-        maskCtx.font = `${fontWeight} ${fontSize}px "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-        maskCtx.textAlign = "center";
-        maskCtx.textBaseline = "middle";
-        maskCtx.fillText(text, width / (2 * dpr), height / (2 * dpr));
-        maskCtx.restore();
-      }
+      const cellPitch = (squareSize + gridGap) * dpr;
+      const squareWidth = squareSize * dpr;
+      const squareHeight = squareSize * dpr;
 
       for (let i = 0; i < cols; i++) {
+        const x = i * cellPitch;
         for (let j = 0; j < rows; j++) {
-          const x = i * (squareSize + gridGap) * dpr;
-          const y = j * (squareSize + gridGap) * dpr;
-          const squareWidth = squareSize * dpr;
-          const squareHeight = squareSize * dpr;
+          const y = j * cellPitch;
+          const idx = i * rows + j;
+          const isText = textMask[idx] === 1;
 
-          const maskData = maskCtx.getImageData(
-            x,
-            y,
-            squareWidth,
-            squareHeight,
-          ).data;
-          const hasText = maskData.some(
-            (value, index) => index % 4 === 0 && value > 0,
-          );
+          if (isText) {
+            // Text dots: High-intensity LED crimson/red with vivid flickering
+            const raw = squares[idx];
+            const wave = Math.sin(time * 4 + i * 0.08 + j * 0.05) * 0.08;
+            const textOpacity = Math.min(
+              1,
+              Math.max(0.75, 0.88 + wave + (raw > 0.4 ? 0.12 : -0.06))
+            );
 
-          const opacity = squares[i * rows + j];
-          const finalOpacity = hasText
-            ? Math.min(1, opacity * 3 + 0.4)
-            : opacity;
-
-          ctx.fillStyle = colorWithOpacity(memoizedColor, finalOpacity);
-          ctx.fillRect(x, y, squareWidth, squareHeight);
+            ctx.fillStyle = colorWithOpacity(memoizedColor, textOpacity);
+            ctx.fillRect(x, y, squareWidth, squareHeight);
+          } else {
+            // Ambient matrix dots: subtle faint background grid
+            const ambientOpacity = squares[idx] * 0.18 + 0.03;
+            ctx.fillStyle = colorWithOpacity(memoizedColor, ambientOpacity);
+            ctx.fillRect(x, y, squareWidth, squareHeight);
+          }
         }
       }
     },
-    [memoizedColor, squareSize, gridGap, text, fontSize, fontWeight],
+    [memoizedColor, squareSize, gridGap],
   );
 
   const setupCanvas = useCallback(
     (canvas: HTMLCanvasElement, width: number, height: number) => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
+
       const cols = Math.ceil(width / (squareSize + gridGap));
       const rows = Math.ceil(height / (squareSize + gridGap));
 
@@ -234,9 +224,67 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         squares[i] = Math.random() * maxOpacity;
       }
 
-      return { cols, rows, squares, dpr };
+      // Pre-rasterize text mask ONCE per resize/setup
+      const textMask = new Uint8Array(cols * rows);
+
+      if (text && typeof document !== "undefined") {
+        try {
+          const offscreen = document.createElement("canvas");
+          offscreen.width = canvas.width;
+          offscreen.height = canvas.height;
+          const offCtx = offscreen.getContext("2d", { willReadFrequently: true });
+
+          if (offCtx) {
+            offCtx.scale(dpr, dpr);
+            offCtx.fillStyle = "#ffffff";
+            offCtx.textAlign = "center";
+            offCtx.textBaseline = "middle";
+
+            const isNarrow = width < 768;
+            if (isNarrow && text.includes(" ")) {
+              const parts = text.split(" ");
+              const line1 = parts[0];
+              const line2 = parts.slice(1).join(" ");
+              const responsiveFontSize = Math.min(
+                Math.floor((width / Math.max(line1.length, line2.length)) * 1.1),
+                Math.floor(height * 0.36)
+              );
+              offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+              offCtx.fillText(line1, width / 2, height * 0.35);
+              offCtx.fillText(line2, width / 2, height * 0.68);
+            } else {
+              const responsiveFontSize = Math.min(
+                Math.floor((width / text.length) * 1.35),
+                Math.floor(height * 0.55)
+              );
+              offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+              offCtx.fillText(text, width / 2, height / 2);
+            }
+
+            const imgData = offCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+            const cellPitch = (squareSize + gridGap) * dpr;
+
+            for (let i = 0; i < cols; i++) {
+              for (let j = 0; j < rows; j++) {
+                const sampleX = Math.min(canvas.width - 1, Math.floor((i + 0.5) * cellPitch));
+                const sampleY = Math.min(canvas.height - 1, Math.floor((j + 0.5) * cellPitch));
+                const alphaIdx = (sampleY * canvas.width + sampleX) * 4 + 3;
+
+                // Check alpha threshold to identify text dots
+                if (imgData[alphaIdx] > 40) {
+                  textMask[i * rows + j] = 1;
+                }
+              }
+            }
+          }
+        } catch (e) {
+          console.error("Text mask rasterization error:", e);
+        }
+      }
+
+      return { cols, rows, squares, dpr, textMask };
     },
-    [squareSize, gridGap, maxOpacity],
+    [squareSize, gridGap, maxOpacity, text],
   );
 
   const updateSquares = useCallback(
@@ -274,6 +322,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     const animate = (time: number) => {
       if (!isInView) return;
 
+      const seconds = time / 1000;
       const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
 
@@ -286,6 +335,8 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         gridParams.rows,
         gridParams.squares,
         gridParams.dpr,
+        gridParams.textMask,
+        seconds,
       );
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -456,18 +507,17 @@ export const Component = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-44 md:h-56 relative mt-12 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f9fa] dark:from-[#050608] via-transparent to-[#f8f9fa] dark:to-[#050608] z-10 pointer-events-none" />
-        <div className="absolute inset-0 mx-4">
+      <div className="w-full h-48 sm:h-56 md:h-64 relative mt-10 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f8f9fa] dark:from-[#050608] from-0% via-transparent via-15% via-85% to-[#f8f9fa] dark:to-[#050608] to-100% opacity-60 z-10 pointer-events-none" />
+        <div className="absolute inset-0 mx-2 sm:mx-6">
           <FlickeringGrid
-            text={tablet ? "DSPACE" : "DSPACE ELECTRONICS"}
-            fontSize={tablet ? 54 : 84}
+            text="DSPACE ELECTRONICS"
             className="h-full w-full"
-            squareSize={2}
-            gridGap={tablet ? 2 : 3}
+            squareSize={2.5}
+            gridGap={3}
             color="#e51e2b"
-            maxOpacity={0.55}
-            flickerChance={0.15}
+            maxOpacity={0.6}
+            flickerChance={0.25}
           />
         </div>
       </div>
