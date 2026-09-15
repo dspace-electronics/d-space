@@ -118,7 +118,7 @@ export default function Auth10() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#050505] font-sans text-neutral-200 antialiased selection:bg-neutral-800 selection:text-white lg:flex-row">
-      {/* Left Image Panel - Watermelon Auth-10 style with Dspace Electronics Aesthetics */}
+      {/* Left Image Panel - Dspace Electronics Aesthetics */}
       <div className="relative flex w-full flex-col justify-between overflow-hidden p-8 sm:p-12 lg:w-1/2 min-h-[44vh] lg:min-h-screen">
         {/* Background Layer with Darkened Vignette */}
         <div className="absolute inset-0 bg-radial-[at_top_left] from-neutral-800 via-neutral-950 to-black opacity-90" />
