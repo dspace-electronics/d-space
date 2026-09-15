@@ -246,18 +246,18 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
               const line1 = parts[0];
               const line2 = parts.slice(1).join(" ");
               const responsiveFontSize = Math.min(
-                Math.floor((width / Math.max(line1.length, line2.length)) * 0.75),
-                Math.floor(height * 0.32),
-                22
+                Math.floor((width / Math.max(line1.length, line2.length)) * 0.9),
+                Math.floor(height * 0.35),
+                32
               );
               offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
               offCtx.fillText(line1, width / 2, height * 0.34);
               offCtx.fillText(line2, width / 2, height * 0.68);
             } else {
               const responsiveFontSize = Math.min(
-                Math.floor((width / text.length) * 0.95),
-                Math.floor(height * 0.44),
-                38
+                Math.floor((width / text.length) * 1.15),
+                Math.floor(height * 0.50),
+                58
               );
               offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
               offCtx.fillText(text, width / 2, height / 2);
@@ -509,17 +509,17 @@ export const Component = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-24 sm:h-28 md:h-32 relative mt-6 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
+      <div className="w-full h-36 sm:h-40 md:h-44 relative mt-8 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#f8f9fa] dark:from-[#050608] from-0% via-transparent via-15% via-85% to-[#f8f9fa] dark:to-[#050608] to-100% opacity-60 z-10 pointer-events-none" />
-        <div className="max-w-5xl mx-auto h-full px-4">
+        <div className="max-w-6xl mx-auto h-full px-4">
           <FlickeringGrid
             text="DSPACE ELECTRONICS"
             className="h-full w-full"
-            squareSize={2}
+            squareSize={2.5}
             gridGap={2.5}
             color="#e51e2b"
-            maxOpacity={0.5}
-            flickerChance={0.2}
+            maxOpacity={0.55}
+            flickerChance={0.22}
           />
         </div>
       </div>
