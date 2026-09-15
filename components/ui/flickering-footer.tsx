@@ -246,20 +246,26 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
               const line1 = parts[0];
               const line2 = parts.slice(1).join(" ");
               const responsiveFontSize = Math.min(
-                Math.floor((width / Math.max(line1.length, line2.length)) * 0.9),
-                Math.floor(height * 0.35),
-                32
+                Math.floor((width / Math.max(line1.length, line2.length)) * 1.05),
+                Math.floor(height * 0.38),
+                42
               );
               offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-              offCtx.fillText(line1, width / 2, height * 0.34);
+              if ("letterSpacing" in offCtx) {
+                (offCtx as any).letterSpacing = "0.05em";
+              }
+              offCtx.fillText(line1, width / 2, height * 0.33);
               offCtx.fillText(line2, width / 2, height * 0.68);
             } else {
               const responsiveFontSize = Math.min(
-                Math.floor((width / text.length) * 1.15),
-                Math.floor(height * 0.50),
-                58
+                Math.floor((width / text.length) * 1.42),
+                Math.floor(height * 0.56),
+                78
               );
               offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+              if ("letterSpacing" in offCtx) {
+                (offCtx as any).letterSpacing = "0.06em";
+              }
               offCtx.fillText(text, width / 2, height / 2);
             }
 
@@ -509,9 +515,9 @@ export const Component = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-36 sm:h-40 md:h-44 relative mt-8 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
+      <div className="w-full h-44 sm:h-48 md:h-52 relative mt-8 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#f8f9fa] dark:from-[#050608] from-0% via-transparent via-15% via-85% to-[#f8f9fa] dark:to-[#050608] to-100% opacity-60 z-10 pointer-events-none" />
-        <div className="max-w-6xl mx-auto h-full px-4">
+        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6">
           <FlickeringGrid
             text="DSPACE ELECTRONICS"
             className="h-full w-full"
