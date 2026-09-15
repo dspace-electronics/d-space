@@ -240,31 +240,31 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
             offCtx.textAlign = "center";
             offCtx.textBaseline = "middle";
 
-            const isNarrow = width < 768;
+            const isNarrow = width < 820;
             if (isNarrow && text.includes(" ")) {
               const parts = text.split(" ");
               const line1 = parts[0];
               const line2 = parts.slice(1).join(" ");
               const responsiveFontSize = Math.min(
-                Math.floor((width / Math.max(line1.length, line2.length)) * 1.05),
-                Math.floor(height * 0.38),
-                48
+                Math.floor((width / Math.max(line1.length, line2.length)) * 0.95),
+                Math.floor(height * 0.36),
+                44
               );
               offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
               if ("letterSpacing" in offCtx) {
                 (offCtx as any).letterSpacing = "0.08em";
               }
-              offCtx.fillText(line1, width / 2, height * 0.33);
+              offCtx.fillText(line1, width / 2, height * 0.34);
               offCtx.fillText(line2, width / 2, height * 0.68);
             } else {
               const responsiveFontSize = Math.min(
-                Math.floor((width / (text.length + 1)) * 1.1),
-                Math.floor(height * 0.62),
-                135
+                Math.floor((width / (text.length + 1)) * 1.35),
+                Math.floor(height * 0.56),
+                88
               );
               offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
               if ("letterSpacing" in offCtx) {
-                (offCtx as any).letterSpacing = isNarrow ? "0.12em" : "0.22em";
+                (offCtx as any).letterSpacing = "0.07em";
               }
               offCtx.fillText(text, width / 2, height / 2);
             }
@@ -515,11 +515,11 @@ export const Component = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-44 sm:h-52 md:h-60 relative mt-8 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
+      <div className="w-full h-48 sm:h-56 md:h-60 relative mt-8 z-0 overflow-hidden bg-[#f8f9fa] dark:bg-[#050608]">
         <div className="absolute inset-0 bg-gradient-to-b from-[#f8f9fa] dark:from-[#050608] from-0% via-transparent via-15% via-85% to-[#f8f9fa] dark:to-[#050608] to-100% opacity-55 z-10 pointer-events-none" />
         <div className="absolute inset-0 w-full h-full">
           <FlickeringGrid
-            text="DSPACE"
+            text="DSPACE ELECTRONICS"
             className="h-full w-full"
             squareSize={2.5}
             gridGap={2.5}
