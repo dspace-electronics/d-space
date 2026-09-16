@@ -24,11 +24,14 @@ import {
   Activity,
   ArrowRight,
   RefreshCw,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { useWishlist } from '@/context/wishlist-context';
 import { useAuth } from '@/context/auth-context';
 import { useSearch } from '@/context/search-context';
+import { useTheme } from '@/context/theme-context';
 import Avatar from 'boring-avatars';
 import { DspaceLogo } from '@/components/ui/dspace-logo';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -44,6 +47,7 @@ export function Navbar() {
   const { totalWishlistItems } = useWishlist();
   const { user, isAdmin, logout } = useAuth();
   const { openSearch } = useSearch();
+  const { theme, setTheme, isDark } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
@@ -99,7 +103,7 @@ export function Navbar() {
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Quick Search Trigger Pill */}
             <button
               onClick={openSearch}
@@ -113,20 +117,19 @@ export function Navbar() {
             </button>
 
             {/* Theme Toggle Button */}
-            <ThemeToggle />
+            <ThemeToggle className="p-1.5 sm:p-2" />
 
             {user ? (
               user.role === 'admin' ? (
                 /* ================= ADMIN ROLE CONTROLS ================= */
                 <>
-                  {/* Direct Admin Console Launch Pill */}
+                  {/* Direct Admin Console Launch Pill (desktop) */}
                   <Link
                     href="/admin"
-                    className="flex items-center gap-1.5 bg-[#e51e2b] hover:bg-[#c91823] text-white active:scale-[0.97] px-3.5 sm:px-4 py-1.5 rounded-full font-bold text-xs transition-all shadow-md shadow-[#e51e2b]/20 cursor-pointer"
+                    className="hidden sm:flex items-center gap-1.5 bg-[#e51e2b] hover:bg-[#c91823] text-white active:scale-[0.97] px-3.5 sm:px-4 py-1.5 rounded-full font-bold text-xs transition-all shadow-md shadow-[#e51e2b]/20 cursor-pointer"
                   >
                     <LayoutDashboard className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Admin Console</span>
-                    <span className="sm:hidden">Admin</span>
+                    <span>Admin Console</span>
                   </Link>
 
                   {/* Admin Profile Photo Avatar with Interactive Admin Menu */}
@@ -261,10 +264,10 @@ export function Navbar() {
               ) : (
                 /* ================= CUSTOMER / MAKER ROLE CONTROLS ================= */
                 <>
-                  {/* Wishlist */}
+                  {/* Wishlist (hidden on tiny screens to avoid crowding) */}
                   <Link
                     href="/wishlist"
-                    className="relative p-2 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors"
+                    className="hidden sm:flex relative p-2 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors"
                     aria-label="Wishlist"
                   >
                     <Heart className="w-4 h-4" />
@@ -278,7 +281,7 @@ export function Navbar() {
                   {/* Cart Capsule */}
                   <button
                     onClick={openCart}
-                    className="relative flex items-center gap-1.5 bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 active:scale-[0.97] px-3.5 sm:px-4 py-1.5 rounded-full font-semibold text-xs transition-all shadow-xs cursor-pointer"
+                    className="relative flex items-center gap-1.5 bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 active:scale-[0.97] px-2.5 sm:px-4 py-1.5 rounded-full font-semibold text-xs transition-all shadow-xs cursor-pointer"
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />
                     <span className="hidden sm:inline font-mono">
@@ -401,10 +404,10 @@ export function Navbar() {
             ) : (
               /* ================= GUEST CONTROLS ================= */
               <>
-                {/* Wishlist */}
+                {/* Wishlist (desktop) */}
                 <Link
                   href="/wishlist"
-                  className="relative p-2 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors"
+                  className="hidden sm:flex relative p-2 rounded-full text-neutral-600 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors"
                   aria-label="Wishlist"
                 >
                   <Heart className="w-4 h-4" />
@@ -418,7 +421,7 @@ export function Navbar() {
                 {/* Cart Capsule */}
                 <button
                   onClick={openCart}
-                  className="relative flex items-center gap-1.5 bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 active:scale-[0.97] px-3.5 sm:px-4 py-1.5 rounded-full font-semibold text-xs transition-all shadow-xs cursor-pointer"
+                  className="relative flex items-center gap-1.5 bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 active:scale-[0.97] px-2.5 sm:px-4 py-1.5 rounded-full font-semibold text-xs transition-all shadow-xs cursor-pointer"
                 >
                   <ShoppingBag className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline font-mono">
@@ -431,9 +434,10 @@ export function Navbar() {
                   )}
                 </button>
 
+                {/* Sign In Button (hidden on mobile navbar, prominent in mobile menu) */}
                 <Link
                   href="/signin"
-                  className="flex items-center gap-1.5 bg-[#e51e2b] text-white hover:bg-[#c91823] active:scale-[0.97] font-bold px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs transition-all shadow-md shadow-[#e51e2b]/25 cursor-pointer"
+                  className="hidden sm:flex items-center gap-1.5 bg-[#e51e2b] text-white hover:bg-[#c91823] active:scale-[0.97] font-bold px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs transition-all shadow-md shadow-[#e51e2b]/25 cursor-pointer"
                 >
                   <LogIn className="w-3.5 h-3.5" />
                   <span>Sign In</span>
@@ -444,7 +448,7 @@ export function Navbar() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-full text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors"
+              className="md:hidden p-1.5 rounded-full text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5 text-neutral-900 dark:text-white" /> : <Menu className="w-5 h-5 text-neutral-800 dark:text-neutral-200" />}
@@ -468,6 +472,34 @@ export function Navbar() {
               </div>
               <kbd className="px-1.5 py-0.5 rounded bg-white dark:bg-black/40 text-[10px] font-mono">⌘K</kbd>
             </button>
+
+            {/* Appearance Theme Selector */}
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 dark:bg-white/5 border border-neutral-200/70 dark:border-white/10">
+              <div className="flex items-center gap-2 text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+                {isDark ? <Moon className="w-4 h-4 text-amber-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
+                <span>Appearance</span>
+              </div>
+              <div className="flex items-center gap-1 bg-white dark:bg-neutral-900 p-1 rounded-xl border border-neutral-200/80 dark:border-white/10 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setTheme('light')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    !isDark ? 'bg-neutral-100 text-neutral-950 font-bold shadow-2xs' : 'text-neutral-400 hover:text-neutral-200'
+                  }`}
+                >
+                  Light
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTheme('dark')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    isDark ? 'bg-white/15 text-white font-bold shadow-2xs' : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
+                >
+                  Dark
+                </button>
+              </div>
+            </div>
 
             {user ? (
               <div className="space-y-2">
@@ -557,6 +589,25 @@ export function Navbar() {
             )}
 
             <div className="flex flex-col gap-1.5 pt-1">
+              {/* Wishlist in mobile navigation menu */}
+              <Link
+                href="/wishlist"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold text-neutral-700 dark:text-neutral-200 bg-neutral-50 dark:bg-white/5 hover:bg-neutral-100 dark:hover:bg-white/10 border border-neutral-200/60 dark:border-white/5 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Heart className="w-4 h-4 text-rose-500" />
+                  <span>Saved Wishlist</span>
+                </div>
+                {totalWishlistItems > 0 ? (
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-[#e51e2b] text-white">
+                    {totalWishlistItems}
+                  </span>
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-neutral-400" />
+                )}
+              </Link>
+
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.name}
