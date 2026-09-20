@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Eye, EyeOff, ArrowLeft, ShieldCheck, Zap } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Eye, EyeOff, ArrowLeft, ShieldCheck, Zap, Check, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
 import { DspaceLogo } from '@/components/ui/dspace-logo';
+import { evaluatePassword } from '@/lib/password';
 
 export function SignUpPage() {
   const router = useRouter();
@@ -29,10 +30,19 @@ export function SignUpPage() {
     }));
   };
 
+  const passwordEval = useMemo(() => evaluatePassword(formData.password), [formData.password]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.fullName) return;
     setErrorMessage('');
+
+    if (!passwordEval.isComplete) {
+      const missing = passwordEval.rules.filter((r) => !r.passed).map((r) => r.label);
+      setErrorMessage(`Password does not meet all security rules: ${missing.join(', ')}.`);
+      return;
+    }
+
     setIsLoading(true);
     try {
       signupWithEmail(formData.fullName, formData.email, formData.password);
@@ -164,7 +174,7 @@ export function SignUpPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    placeholder="Minimum 8 characters"
+                    placeholder="Must meet all 5 security rules"
                     className="w-full px-4 py-3 pr-12 border border-neutral-200 dark:border-white/10 rounded-2xl text-sm focus:ring-2 focus:ring-[#6366f1]/30 focus:border-[#6366f1] outline-hidden transition-all bg-neutral-50/70 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 focus:bg-white dark:focus:bg-[#161a22] text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
                     required
                   />
@@ -176,6 +186,67 @@ export function SignUpPage() {
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
+                </div>
+
+                {/* Real-time Password Rules & Strength Meter */}
+                <div className="mt-2.5 p-3 rounded-2xl bg-neutral-100/70 dark:bg-white/5 border border-neutral-200/80 dark:border-white/10 space-y-2">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-mono text-neutral-500 dark:text-neutral-400">Password Security</span>
+                    <span
+                      className={`font-semibold uppercase tracking-wider text-[10px] px-2 py-0.5 rounded-full ${
+                        passwordEval.strength === 'strong'
+                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                          : passwordEval.strength === 'good'
+                          ? 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
+                          : passwordEval.strength === 'fair'
+                          ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+                          : 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30'
+                      }`}
+                    >
+                      {formData.password ? `${passwordEval.strength}` : 'Required'}
+                    </span>
+                  </div>
+
+                  {/* Visual Strength Progress Bar */}
+                  <div className="h-1.5 w-full bg-neutral-200 dark:bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-300 rounded-full ${
+                        passwordEval.strength === 'strong'
+                          ? 'bg-emerald-500'
+                          : passwordEval.strength === 'good'
+                          ? 'bg-indigo-500'
+                          : passwordEval.strength === 'fair'
+                          ? 'bg-amber-500'
+                          : 'bg-rose-500'
+                      }`}
+                      style={{ width: `${Math.max(passwordEval.strengthPercent, 4)}%` }}
+                    />
+                  </div>
+
+                  {/* Rules Checklist */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                    {passwordEval.rules.map((rule) => (
+                      <div
+                        key={rule.id}
+                        className={`flex items-center gap-1.5 text-[11px] transition-colors ${
+                          rule.passed
+                            ? 'text-emerald-600 dark:text-emerald-400 font-medium'
+                            : 'text-neutral-500 dark:text-neutral-400'
+                        }`}
+                      >
+                        <div
+                          className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[9px] shrink-0 ${
+                            rule.passed
+                              ? 'bg-emerald-500 text-white'
+                              : 'bg-neutral-200 dark:bg-white/10 text-neutral-400 dark:text-neutral-500'
+                          }`}
+                        >
+                          {rule.passed ? <Check className="w-2.5 h-2.5" /> : '•'}
+                        </div>
+                        <span className="leading-tight">{rule.label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 

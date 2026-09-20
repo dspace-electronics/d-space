@@ -132,7 +132,7 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleToggleWishlist}
-              className={`p-2.5 rounded-xl border transition-colors cursor-pointer ${
+              className={`p-2.5 rounded-xl border transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white ${
                 inWishlist
                   ? 'bg-rose-50 dark:bg-rose-500/20 border-rose-200 dark:border-rose-500/40 text-[#e51e2b]'
                   : 'bg-neutral-100 dark:bg-white/5 border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-white/10'
@@ -144,7 +144,7 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
 
             <button
               onClick={handleQuickAdd}
-              className="flex items-center gap-2 bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 active:scale-95 text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer"
+              className="flex items-center gap-2 bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 active:scale-95 text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white"
             >
               {isAdded ? (
                 <>
@@ -218,7 +218,7 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
         <div className="absolute inset-x-2.5 bottom-2.5 z-10 hidden sm:flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <button
             onClick={handleQuickAdd}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 font-bold text-xs py-2 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 font-bold text-xs py-2 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white"
           >
             {isAdded ? (
               <>
@@ -284,13 +284,17 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
             </div>
           </div>
 
-          {/* Mobile Quick Add */}
+          {/* Mobile Quick Add with visual confirmation */}
           <button
             onClick={handleQuickAdd}
-            className="sm:hidden p-2 rounded-xl bg-neutral-100 dark:bg-white/10 active:bg-neutral-200 dark:active:bg-white/20 text-neutral-900 dark:text-white border border-neutral-200 dark:border-white/15 cursor-pointer"
-            aria-label="Add to cart"
+            className={`sm:hidden p-2.5 rounded-xl transition-all active:scale-90 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white ${
+              isAdded
+                ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/40 shadow-xs'
+                : 'bg-neutral-100 dark:bg-white/10 active:bg-neutral-200 dark:active:bg-white/20 text-neutral-900 dark:text-white border border-neutral-200 dark:border-white/15'
+            }`}
+            aria-label={isAdded ? 'Added to cart' : 'Add to cart'}
           >
-            <ShoppingBag className="w-4 h-4" />
+            {isAdded ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <ShoppingBag className="w-4 h-4" />}
           </button>
         </div>
       </div>

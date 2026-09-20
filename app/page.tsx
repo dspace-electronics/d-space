@@ -70,10 +70,12 @@ export default function HomePage() {
           </div>
           <Link
             href="/delivery"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-white bg-neutral-900 hover:bg-neutral-800 dark:text-neutral-900 dark:bg-white dark:hover:bg-neutral-200 px-4 py-2.5 rounded-xl transition-all shrink-0 shadow-xs"
+            className="group inline-flex items-center gap-2 text-xs font-semibold text-white bg-neutral-900 hover:bg-neutral-800 dark:text-neutral-950 dark:bg-white dark:hover:bg-neutral-100 pl-4 pr-2 py-1.5 rounded-full transition-all shrink-0 shadow-sm active:scale-[0.98] border border-neutral-800 dark:border-white/20"
           >
             <span>Check Delivery Time &amp; Courier Fee</span>
-            <ArrowRight className="h-3.5 w-3.5" />
+            <span className="w-6 h-6 rounded-full bg-white/20 dark:bg-black/10 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5">
+              <ArrowRight className="h-3 w-3" />
+            </span>
           </Link>
         </div>
       </section>
@@ -145,7 +147,7 @@ export default function HomePage() {
           <div className="flex items-center gap-1.5 p-1 bg-neutral-200/70 dark:bg-white/10 border border-neutral-300/80 dark:border-white/10 rounded-xl self-start sm:self-auto backdrop-blur-md">
             <button
               onClick={() => setActiveTab('featured')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white ${
                 activeTab === 'featured'
                   ? 'bg-white text-neutral-950 shadow-xs'
                   : 'text-neutral-700 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white'
@@ -155,7 +157,7 @@ export default function HomePage() {
             </button>
             <button
               onClick={() => setActiveTab('bestsellers')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white ${
                 activeTab === 'bestsellers'
                   ? 'bg-white text-neutral-950 shadow-xs'
                   : 'text-neutral-700 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white'
@@ -165,7 +167,7 @@ export default function HomePage() {
             </button>
             <button
               onClick={() => setActiveTab('new')}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:focus-visible:ring-white ${
                 activeTab === 'new'
                   ? 'bg-white text-neutral-950 shadow-xs'
                   : 'text-neutral-700 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white'
@@ -186,10 +188,12 @@ export default function HomePage() {
         <div className="text-center pt-8">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white dark:bg-white/10 hover:bg-neutral-100 dark:hover:bg-white/20 border border-neutral-300 dark:border-white/15 text-xs font-bold text-neutral-900 dark:text-white shadow-xs transition-all"
+            className="group inline-flex items-center gap-2.5 pl-6 pr-2.5 py-2 rounded-full bg-white dark:bg-[#12151d] hover:bg-neutral-50 dark:hover:bg-[#171b26] border border-neutral-300/80 dark:border-white/15 text-xs font-bold text-neutral-900 dark:text-white shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
           >
-            <span>Browse Complete 36-Product Catalog</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>Browse Complete {products.length}-Product Catalog</span>
+            <span className="w-7 h-7 rounded-full bg-neutral-100 dark:bg-white/10 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 text-[#e51e2b]">
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
           </Link>
         </div>
       </section>
@@ -219,11 +223,11 @@ export default function HomePage() {
               type="email"
               required
               placeholder="engineer@startup.com"
-              className="flex-1 px-4 py-2.5 text-xs rounded-xl bg-neutral-50 dark:bg-white/5 border border-neutral-300 dark:border-white/15 text-neutral-900 dark:text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#e51e2b] dark:focus:border-[#e51e2b]"
+              className="flex-1 px-4 py-2.5 text-xs rounded-xl bg-neutral-50 dark:bg-white/5 border border-neutral-300 dark:border-white/15 text-neutral-900 dark:text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#e51e2b] dark:focus:border-[#e51e2b] focus-visible:ring-2 focus-visible:ring-[#e51e2b]/30"
             />
             <button
               type="submit"
-              className="px-5 py-2.5 bg-[#e51e2b] hover:bg-[#c91823] active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-[#e51e2b]/25 cursor-pointer"
+              className="px-5 py-2.5 bg-[#e51e2b] hover:bg-[#c91823] active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-[#e51e2b]/25 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#e51e2b]"
             >
               Subscribe
             </button>

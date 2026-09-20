@@ -17,7 +17,7 @@ export interface AnnouncementProps {
 }
 
 export function Announcement4({
-  message = 'Bengaluru Few-Hour Porter Dispatch active — 36+ verified boards and tools ready for rapid lab delivery.',
+  message = 'Bengaluru Few-Hour Porter Dispatch active: verified boards and tools ready for rapid lab delivery.',
   badgeText = 'ACTIVE',
   buttonText = 'Check Courier Fee & ETA',
   buttonLink = '/delivery',

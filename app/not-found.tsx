@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Search, ArrowRight, Home, Cpu, Layers } from 'lucide-react';
+import { useProducts } from '@/context/product-context';
 
 export default function NotFound() {
   const router = useRouter();
+  const { products } = useProducts();
   const [query, setQuery] = useState('');
 
   const handleSearch = (e: React.FormEvent) => {
@@ -62,7 +64,7 @@ export default function NotFound() {
             className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl bg-[#111827] dark:bg-white dark:text-neutral-950 text-white hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
           >
             <Cpu className="w-3.5 h-3.5 text-[#6366f1] dark:text-indigo-600" />
-            <span>Catalog (36 SKUs)</span>
+            <span>Catalog ({products.length} SKUs)</span>
           </Link>
         </div>
       </div>

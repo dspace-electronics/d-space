@@ -56,9 +56,9 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
       try {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Filter to only the 5 valid base components or newly created admin components
-          const valid5Ids = new Set(INITIAL_PRODUCTS.map((p) => p.id));
-          const cleaned = parsed.filter((p: Product) => valid5Ids.has(p.id) || p.id.startsWith('dsp-'));
+          // Filter to valid base components or newly created admin components
+          const validBaseIds = new Set(INITIAL_PRODUCTS.map((p) => p.id));
+          const cleaned = parsed.filter((p: Product) => validBaseIds.has(p.id) || p.id.startsWith('dsp-'));
           if (cleaned.length > 0) {
             setProducts(cleaned);
           } else {

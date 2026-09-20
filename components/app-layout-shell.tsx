@@ -4,6 +4,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/navigation/footer';
+import { BackToTop } from '@/components/ui/back-to-top';
 
 export function AppLayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ export function AppLayoutShell({ children }: { children: React.ReactNode }) {
       <Navbar />
       <main className={`flex-1 ${isHome ? '' : 'pt-20 sm:pt-24'}`}>{children}</main>
       <Footer />
+      <BackToTop />
     </>
   );
 }

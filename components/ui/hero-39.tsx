@@ -128,7 +128,7 @@ export function Hero39({
   badgeText = 'BENGALURU FEW-HOUR PORTER DISPATCH ACTIVE',
   headingLine1 = 'From Schematic to Silicon,',
   headingLine2Highlight = 'Delivered in Hours.',
-  subtitle = 'Factory-direct ESP32-S3 boards, RP2040 microcontrollers, calibrated Bosch sensors, and precision lab tools. Dispatched across Bengaluru in 2–4 hours via Porter.',
+  subtitle = 'Factory-direct ESP32-S3 boards, RP2040 microcontrollers, calibrated Bosch sensors, and precision lab tools. Dispatched across Bengaluru in 2 to 4 hours via Porter.',
   searchPlaceholder = 'Search chips, sensors, power modules...',
   buttonText = 'Explore Catalog',
   className = '',
@@ -308,10 +308,12 @@ export function Hero39({
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     type="submit"
-                    className="flex h-[42px] sm:h-[46px] items-center justify-center gap-1.5 rounded-full px-4 sm:px-6 text-xs sm:text-sm font-bold shadow-md transition-all active:scale-[0.97] cursor-pointer shrink-0 bg-[#e51e2b] text-white hover:bg-[#c91823] shadow-[#e51e2b]/30"
+                    className="flex h-[42px] sm:h-[46px] items-center justify-center gap-2 rounded-full pl-4 pr-1.5 sm:pl-5 sm:pr-2 text-xs sm:text-sm font-bold shadow-md transition-all active:scale-[0.97] cursor-pointer shrink-0 bg-[#e51e2b] text-white hover:bg-[#c91823] shadow-[#e51e2b]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#e51e2b] group"
                   >
                     <span>{query.trim() ? 'Search' : buttonText}</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5">
+                      <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                    </span>
                   </button>
                 </div>
               </form>
@@ -416,7 +418,7 @@ export function Hero39({
           >
             <div className={`flex items-center gap-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
               <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-              <span>2–4 Hr Porter Delivery in BLR</span>
+              <span>2-4 Hr Porter Delivery in BLR</span>
             </div>
             <div className={`flex items-center gap-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />

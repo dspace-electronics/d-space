@@ -277,7 +277,7 @@ export default function Auth10() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
+                placeholder="8+ chars with uppercase, numbers, symbols"
                 className="w-full rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-3 text-sm text-white placeholder:text-neutral-600 focus:border-neutral-500 focus:bg-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-500 transition-all"
               />
             </motion.div>

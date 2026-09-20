@@ -133,7 +133,7 @@ export async function openRazorpayCheckout({
       amount: amount || Math.round(amountInRupees * 100),
       currency: 'INR',
       name: 'Dspace Electronics',
-      description: `Bengaluru Porter Dispatch — Order #${orderNumber}`,
+      description: `Bengaluru Porter Dispatch: Order #${orderNumber}`,
       image: '/dspace-logo.jpeg',
       order_id: orderId,
       handler: async function (response) {

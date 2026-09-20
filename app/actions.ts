@@ -20,9 +20,9 @@ export async function getProductsAction(): Promise<{ success: boolean; data: Pro
     try {
       const rows = await db.select().from(schema.products).orderBy(desc(schema.products.createdAt));
       if (rows && rows.length > 0) {
-        const valid5Ids = new Set(INITIAL_PRODUCTS.map((p) => p.id));
-        const activeRows = rows.filter((r: any) => valid5Ids.has(r.id) || (r.id && r.id.startsWith('dsp-')));
-        const targetRows = activeRows.length > 0 ? activeRows : rows.slice(0, 5);
+        const validBaseIds = new Set(INITIAL_PRODUCTS.map((p) => p.id));
+        const activeRows = rows.filter((r: any) => validBaseIds.has(r.id) || (r.id && r.id.startsWith('dsp-')));
+        const targetRows = activeRows.length > 0 ? activeRows : rows;
 
         const formatted: Product[] = targetRows.map((r: any) => ({
           id: r.id,

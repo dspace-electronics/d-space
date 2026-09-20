@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { UserProfile, UserRole } from '@/lib/types';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { validatePassword } from '@/lib/password';
 
 interface StoredAccount {
   id: string;
@@ -171,6 +172,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!cleanPassword) {
       throw new Error('Please enter your password.');
     }
+    if (cleanEmail !== 'admin@dspace.com' && cleanPassword.length < 8) {
+      throw new Error('Password must be at least 8 characters long.');
+    }
 
     const accounts = getStoredAccounts();
     const matchedAccount = accounts.find((a) => a.email.toLowerCase().trim() === cleanEmail);
@@ -209,8 +213,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!cleanEmail || !cleanEmail.includes('@')) {
       throw new Error('Please enter a valid email address.');
     }
-    if (!cleanPassword || cleanPassword.length < 4) {
-      throw new Error('Password must be at least 4 characters long.');
+    if (!cleanPassword) {
+      throw new Error('Please enter your password.');
+    }
+
+    const validation = validatePassword(cleanPassword);
+    if (!validation.isValid) {
+      throw new Error(`Password must meet all security requirements: ${validation.errors.join(', ')}.`);
     }
 
     const accounts = getStoredAccounts();

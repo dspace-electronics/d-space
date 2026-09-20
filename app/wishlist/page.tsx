@@ -64,7 +64,7 @@ export default function WishlistPage() {
           </div>
           <h3 className="text-lg font-bold text-neutral-950 dark:text-white">Your wishlist is currently empty</h3>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
-            Explore the 36-product catalog of verified development boards, sensors, and lab tools to bookmark items for your next hardware build.
+            Explore our verified catalog of development boards, sensors, and lab tools to bookmark items for your next hardware build.
           </p>
           <div className="pt-2">
             <Link

@@ -35,7 +35,7 @@ export default function DeliveryPage() {
     const matched = BLR_ZONES.find((z) => z.pincode === clean || z.area.toLowerCase().includes(clean.toLowerCase()) || z.name.toLowerCase().includes(clean.toLowerCase()));
     if (matched) {
       setSelectedZone(matched);
-      setPincodeResult(`Found: ${matched.name} (${matched.pincode}) — ${matched.deliveryEtaMinutes} mins ETA`);
+      setPincodeResult(`Found: ${matched.name} (${matched.pincode}) • ${matched.deliveryEtaMinutes} mins ETA`);
     } else {
       setPincodeResult(`Pincode ${clean} is serviced via Standard Porter Express (~60-75 mins).`);
     }
@@ -338,7 +338,7 @@ export default function DeliveryPage() {
       {/* CTA Section */}
       <Cta1
         title="Ready to build your prototype today?"
-        description="Browse 36+ verified microcontrollers, high-precision sensors, and bench tools with few-hour delivery."
+        description="Browse verified microcontrollers, high-precision sensors, and bench tools with few-hour delivery."
         buttonText="Explore Hardware Catalog"
         buttonLink="/shop"
         buttonIcon={<ArrowRight className="h-4 w-4" />}

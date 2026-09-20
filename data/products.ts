@@ -16,6 +16,13 @@ export const CATEGORIES: { id: ProductCategory; name: string; description: strin
     icon: 'Gauge',
   },
   {
+    id: 'power',
+    name: 'Power & Voltage Regulators',
+    description: 'Switch-mode buck/boost converters, Li-ion management, and linear LDO supplies.',
+    count: 1,
+    icon: 'Zap',
+  },
+  {
     id: 'actuators',
     name: 'Displays & Motion Actuators',
     description: 'Crisp OLEDs, SPI displays, high-torque steppers, and optocoupled relay stages.',
@@ -314,6 +321,48 @@ const RAW_PRODUCTS: Product[] = [
         verified: true,
       },
     ],
+  },
+
+  // ==========================================
+  // 6. LM2596 DC-DC Step-Down Buck Converter
+  // ==========================================
+  {
+    id: 'lm2596-buck-converter',
+    slug: 'lm2596-buck-converter',
+    title: 'LM2596 DC-DC Step-Down Buck Converter (3A Max, 1.25V-35V)',
+    subtitle: 'High Efficiency Switching Regulator · 3.2V–40V Input · Precision Multi-turn Trimmer',
+    category: 'power',
+    categoryName: 'Power & Voltage Regulators',
+    price: 95,
+    comparePrice: 140,
+    inStock: true,
+    stockCount: 140,
+    blrHubStock: 50,
+    rating: 4.7,
+    reviewsCount: 195,
+    images: [
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85',
+      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85',
+    ],
+    description: 'High-efficiency switching buck regulator capable of stepping down input voltages from 3.2V–40V down to 1.25V–35V with up to 92% efficiency. Includes precision multi-turn trimmer potentiometer for microvolt-level output tuning, integrated thermal shutdown, and solid electrolytic ripple capacitors.',
+    editorialBlurb: 'Workhorse laboratory DC step-down regulator for robotics, servos, and MCU rails.',
+    specs: {
+      'Input Voltage': '3.2V to 40V DC',
+      'Output Voltage': '1.25V to 35V DC (Continuously adjustable)',
+      'Output Current': '2A nominal (3A with heatsink)',
+      'Conversion Efficiency': 'Up to 92%',
+      'Switching Frequency': '150 KHz',
+    },
+    features: [
+      'Multi-turn cermet potentiometer for microvolt level trimming',
+      'Built-in thermal shutdown and current limit protection',
+      'Solid aluminum electrolytic capacitors for ripple suppression',
+    ],
+    isNewArrival: false,
+    isBestSeller: true,
+    isFeatured: true,
+    isSameDayEligible: true,
+    voltageLogic: 'Multi-Voltage',
   },
 ];
 

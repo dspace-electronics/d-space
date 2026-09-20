@@ -24,7 +24,7 @@ const fontDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Dspace Electronics — Precision Hardware & Rapid Bengaluru Dispatch',
+  title: 'Dspace Electronics | Precision Hardware & Rapid Bengaluru Dispatch',
   description:
     'Engineering-grade electronic components, genuine microcontrollers, precision sensors, and lab tools dispatched across Bengaluru via Porter 2-Wheeler courier.',
   icons: {

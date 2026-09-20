@@ -32,6 +32,20 @@ export function LoginPage() {
     e.preventDefault();
     if (!formData.email) return;
     setErrorMessage('');
+
+    const cleanEmail = formData.email.trim().toLowerCase();
+    const cleanPassword = formData.password.trim();
+
+    if (!cleanPassword) {
+      setErrorMessage('Please enter your password.');
+      return;
+    }
+
+    if (cleanEmail !== 'admin@dspace.com' && cleanPassword.length < 8) {
+      setErrorMessage('Password must be at least 8 characters long.');
+      return;
+    }
+
     setIsLoading(true);
     try {
       const loggedUser = loginWithEmail(formData.email, formData.password);
@@ -160,7 +174,7 @@ export function LoginPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    placeholder="••••••••"
+                    placeholder="Enter your 8+ character password"
                     className="w-full px-4 py-3 pr-12 border border-neutral-200 dark:border-white/10 rounded-2xl text-sm focus:ring-2 focus:ring-[#6366f1]/30 focus:border-[#6366f1] outline-hidden transition-all bg-neutral-50/70 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 focus:bg-white dark:focus:bg-[#161a22] text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
                     required
                   />
@@ -173,6 +187,9 @@ export function LoginPage() {
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1 pl-1">
+                  Passwords are 8+ characters with uppercase, lowercase, numbers &amp; symbols.
+                </p>
               </div>
 
               {/* Remember Me */}
