@@ -49,7 +49,7 @@ export function evaluatePassword(password: string): PasswordEvaluation {
   const isComplete = passedCount === totalCount;
 
   let strength: 'weak' | 'fair' | 'good' | 'strong' = 'weak';
-  let strengthPercent = (passedCount / totalCount) * 100;
+  const strengthPercent = (passedCount / totalCount) * 100;
 
   if (passedCount <= 2) {
     strength = 'weak';

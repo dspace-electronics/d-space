@@ -210,9 +210,19 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
   const setupCanvas = useCallback(
     (canvas: HTMLCanvasElement, width: number, height: number) => {
+      if (width <= 0 || height <= 0) {
+        return {
+          cols: 0,
+          rows: 0,
+          squares: new Float32Array(0),
+          dpr: 1,
+          textMask: new Uint8Array(0),
+        };
+      }
+
       const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      canvas.width = Math.max(1, Math.floor(width * dpr));
+      canvas.height = Math.max(1, Math.floor(height * dpr));
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
 
@@ -227,14 +237,14 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       // Pre-rasterize text mask ONCE per resize/setup
       const textMask = new Uint8Array(cols * rows);
 
-      if (text && typeof document !== "undefined") {
+      if (text && typeof document !== "undefined" && canvas.width > 0 && canvas.height > 0) {
         try {
           const offscreen = document.createElement("canvas");
-          offscreen.width = canvas.width;
-          offscreen.height = canvas.height;
+          offscreen.width = Math.max(1, Math.floor(canvas.width));
+          offscreen.height = Math.max(1, Math.floor(canvas.height));
           const offCtx = offscreen.getContext("2d", { willReadFrequently: true });
 
-          if (offCtx) {
+          if (offCtx && offscreen.width > 0 && offscreen.height > 0) {
             offCtx.scale(dpr, dpr);
             offCtx.fillStyle = "#ffffff";
             offCtx.textAlign = "center";
@@ -269,7 +279,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
               offCtx.fillText(text, width / 2, height / 2);
             }
 
-            const imgData = offCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+            const imgData = offCtx.getImageData(0, 0, offscreen.width, offscreen.height).data;
             const cellPitch = (squareSize + gridGap) * dpr;
 
             for (let i = 0; i < cols; i++) {
@@ -286,7 +296,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
             }
           }
         } catch (e) {
-          console.error("Text mask rasterization error:", e);
+          console.warn("Text mask rasterization error:", e);
         }
       }
 
@@ -320,6 +330,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     const updateCanvasSize = () => {
       const newWidth = width || container.clientWidth;
       const newHeight = height || container.clientHeight;
+      if (newWidth <= 0 || newHeight <= 0) return;
       setCanvasSize({ width: newWidth, height: newHeight });
       gridParams = setupCanvas(canvas, newWidth, newHeight);
     };
@@ -328,7 +339,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
     let lastTime = 0;
     const animate = (time: number) => {
-      if (!isInView) return;
+      if (!isInView || !gridParams || gridParams.cols <= 0 || gridParams.rows <= 0 || !gridParams.squares || gridParams.squares.length === 0) return;
 
       const seconds = time / 1000;
       const deltaTime = (time - lastTime) / 1000;
@@ -438,17 +449,17 @@ export const siteConfig = {
     {
       title: "Hardware",
       links: [
-        { id: 1, title: "Microcontrollers", url: "/shop?category=microcontrollers" },
-        { id: 2, title: "Precision Sensors", url: "/shop?category=sensors" },
-        { id: 3, title: "Power & Battery", url: "/shop?category=power" },
-        { id: 4, title: "Lab Tools & Probes", url: "/shop?category=tools" },
+        { id: 1, title: "Arduino Boards", url: "/shop?category=arduino" },
+        { id: 2, title: "ESP32 & Wireless", url: "/shop?category=esp32" },
+        { id: 3, title: "STM32 Prototyping", url: "/shop?category=stm32" },
+        { id: 4, title: "Raspberry Pi & SBCs", url: "/shop?category=raspberry-pi" },
       ],
     },
     {
       title: "Logistics",
       links: [
         { id: 5, title: "Few-Hour Bengaluru SLA", url: "/delivery" },
-        { id: 6, title: "Porter Courier Tracking", url: "/tracking" },
+        { id: 6, title: "Borzo Courier Tracking", url: "/tracking" },
         { id: 7, title: "ESD Packaging Policy", url: "/delivery" },
         { id: 8, title: "Bulk Lab Procurement", url: "/delivery" },
       ],

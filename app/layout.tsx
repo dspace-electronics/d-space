@@ -26,7 +26,7 @@ const fontDisplay = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Dspace Electronics | Precision Hardware & Rapid Bengaluru Dispatch',
   description:
-    'Engineering-grade electronic components, genuine microcontrollers, precision sensors, and lab tools dispatched across Bengaluru via Porter 2-Wheeler courier.',
+    'Engineering-grade electronic components, genuine microcontrollers, precision sensors, and lab tools dispatched across Bengaluru via Borzo 2-Wheeler courier.',
   icons: {
     icon: '/favicon.ico',
   },
@@ -40,9 +40,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable} h-full antialiased dark`}
+      className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('dspace-theme');var d=document.documentElement;if(t==='light'){d.classList.remove('dark');d.classList.add('light');d.style.colorScheme='light';}else{d.classList.add('dark');d.classList.remove('light');d.style.colorScheme='dark';}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-[#fbfbfd] text-neutral-900 dark:bg-[#050608] dark:text-neutral-100 transition-colors duration-200">
         <Providers>
           <AppLayoutShell>{children}</AppLayoutShell>
