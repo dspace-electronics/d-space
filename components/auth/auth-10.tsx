@@ -153,7 +153,7 @@ export default function Auth10() {
             Dspace<span className="text-neutral-500">.lab</span>
           </span>
           <p className="mt-3 text-xs sm:text-sm font-mono tracking-wider text-neutral-400 uppercase">
-            Precision Electronics · Few-Hour Porter BLR Dispatch
+            Precision Electronics · Few-Hour Borzo BLR Dispatch
           </p>
         </div>
 
@@ -166,7 +166,7 @@ export default function Auth10() {
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium leading-snug tracking-tight text-white">
             Get access to your engineering lab,
             <br className="hidden sm:block" />
-            bulk bill of materials, and same-day Porter logistics.
+            bulk bill of materials, and same-day Borzo logistics.
           </h1>
         </div>
       </div>

@@ -115,7 +115,7 @@ export default function AdminPage() {
   const pendingCount = placedCount + packedCount;
   const deliveredCount = orders.filter((o) => o.status === 'delivered').length;
   const totalStockUnits = products.reduce((sum, p) => sum + (p.stock ?? p.stockCount ?? 0), 0);
-  const lowStockProducts = products.filter((p) => (p.stock ?? p.stockCount ?? 0) <= 5);
+  const lowStockProducts = products.filter((p) => (p.stock ?? p.stockCount ?? 0) <= 2);
   const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
 
   const handleManualRefresh = async () => {
@@ -131,7 +131,7 @@ export default function AdminPage() {
       updateOrderStatus(pendingOrder.id, 'in_transit');
       setTimeout(() => {
         setDispatchSimulatorRunning(false);
-        alert(`⚡ Porter Rider Assigned: Order #${pendingOrder.orderNumber || pendingOrder.id.slice(0, 8)} is now IN TRANSIT across Bengaluru!`);
+        alert(`⚡ Borzo Rider Assigned: Order #${pendingOrder.orderNumber || pendingOrder.id.slice(0, 8)} is now IN TRANSIT across Bengaluru!`);
       }, 600);
     } else {
       setTimeout(() => {
@@ -153,7 +153,7 @@ export default function AdminPage() {
             Restricted Admin Area (RBAC)
           </h2>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-6 leading-relaxed">
-            {user ? 'You are currently signed in as a customer.' : 'You are currently not signed in.'} Only verified Dspace Central Hub Administrators can manage silicon inventory, modify stock, and dispatch Bengaluru Porter couriers.
+            {user ? 'You are currently signed in as a customer.' : 'You are currently not signed in.'} Only verified Dspace Central Hub Administrators can manage silicon inventory, modify stock, and dispatch Bengaluru Borzo couriers.
           </p>
 
           <div className="space-y-2.5">
@@ -334,7 +334,7 @@ export default function AdminPage() {
                 setActiveTab('dispatch');
                 setIsMobileMenuOpen(false);
               }}
-              title="Porter Dispatch"
+              title="Borzo Dispatch"
               className={`w-full flex items-center rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                 isSidebarCollapsed ? 'justify-center p-2.5' : 'justify-between px-3.5 py-2.5'
               } ${
@@ -345,7 +345,7 @@ export default function AdminPage() {
             >
               <div className="flex items-center gap-2.5">
                 <Bike className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Porter Dispatch</span>}
+                {!isSidebarCollapsed && <span>Borzo Dispatch</span>}
               </div>
               {!isSidebarCollapsed && inTransitCount > 0 && (
                 <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-white text-[10px] font-mono font-bold">
@@ -488,7 +488,7 @@ export default function AdminPage() {
             <h1 className="text-sm sm:text-base font-extrabold text-neutral-900 dark:text-white capitalize truncate">
               {activeTab === 'overview' && 'Executive Metrics & Live Hub Radar'}
               {activeTab === 'orders' && 'Real-Time Silicon Orders Pipeline'}
-              {activeTab === 'dispatch' && 'Bengaluru Porter Rider Dispatch Pipeline'}
+              {activeTab === 'dispatch' && 'Bengaluru Borzo Rider Dispatch Pipeline'}
               {activeTab === 'inventory' && 'Silicon Inventory & Stock Management'}
               {activeTab === 'analytics' && 'Revenue & Hardware Demand Analytics'}
             </h1>
@@ -551,7 +551,7 @@ export default function AdminPage() {
 
                 <div className="p-5 rounded-3xl bg-white dark:bg-[#0e1017] border border-neutral-200/80 dark:border-white/10 shadow-xs space-y-2">
                   <div className="flex items-center justify-between text-xs text-neutral-500">
-                    <span className="font-semibold">Active Porter Couriers</span>
+                    <span className="font-semibold">Active Borzo Couriers</span>
                     <Bike className="w-4 h-4 text-[#e51e2b]" />
                   </div>
                   <div className="text-2xl font-extrabold text-neutral-950 dark:text-white font-mono">
@@ -595,7 +595,7 @@ export default function AdminPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
                     <h3 className="text-sm font-bold text-neutral-950 dark:text-white">
-                      Bengaluru Porter Dispatch Zones (Live SLA Status)
+                      Bengaluru Borzo Dispatch Zones (Live SLA Status)
                     </h3>
                     <p className="text-xs text-neutral-500">
                       Dispatched direct from New Thippasandra Central Hub via 2-Wheeler courier
@@ -925,12 +925,12 @@ export default function AdminPage() {
                           </p>
                         </div>
 
-                        {/* Logistics & Porter Telemetry */}
+                        {/* Logistics & Borzo Telemetry */}
                         <div className="p-3.5 rounded-2xl bg-neutral-50 dark:bg-white/5 border border-neutral-200/60 dark:border-white/5 space-y-1.5">
-                          <p className="text-[10px] font-mono font-bold uppercase text-neutral-400">Porter Courier &amp; Rider</p>
+                          <p className="text-[10px] font-mono font-bold uppercase text-neutral-400">Borzo Courier &amp; Rider</p>
                           <div className="flex items-center gap-2 text-neutral-900 dark:text-white">
                             <Bike className="w-4 h-4 text-[#e51e2b]" />
-                            <span className="font-mono font-bold">{order.porterTrackingId || 'PTR-BLR-AUTO'}</span>
+                            <span className="font-mono font-bold">{order.porterTrackingId || 'BRZ-BLR-AUTO'}</span>
                           </div>
                           <p className="text-[11px] text-neutral-500">
                             Rider: <strong className="text-neutral-800 dark:text-neutral-200">{order.porterRider?.name || 'Assigned Courier'}</strong> ({order.porterRider?.vehicleNumber || 'KA-01-EQ-4921'})
@@ -1010,7 +1010,7 @@ export default function AdminPage() {
                                 className="px-3.5 py-1.5 rounded-xl bg-[#e51e2b] hover:bg-[#c91823] text-white text-xs font-bold transition-all cursor-pointer shadow-xs flex items-center gap-1"
                               >
                                 <Zap className="w-3.5 h-3.5" />
-                                <span>Dispatch Porter</span>
+                                <span>Dispatch Borzo</span>
                               </button>
                             </>
                           )}
@@ -1021,7 +1021,7 @@ export default function AdminPage() {
                               className="px-3.5 py-1.5 rounded-xl bg-[#e51e2b] hover:bg-[#c91823] text-white text-xs font-bold transition-all cursor-pointer shadow-xs flex items-center gap-1"
                             >
                               <Bike className="w-3.5 h-3.5" />
-                              <span>Dispatch Porter 2-Wheeler</span>
+                              <span>Dispatch Borzo 2-Wheeler</span>
                             </button>
                           )}
 
@@ -1067,7 +1067,7 @@ export default function AdminPage() {
                 </div>
 
                 <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
-                  {['all', 'microcontrollers', 'sensors', 'power', 'actuators', 'tools'].map((cat) => (
+                  {['all', 'arduino', 'esp32', 'stm32', 'raspberry-pi'].map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
@@ -1192,13 +1192,13 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* ──────── TAB 3: PORTER DISPATCH ──────── */}
+          {/* ──────── TAB 3: BORZO DISPATCH ──────── */}
           {activeTab === 'dispatch' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-[#0e1017] border border-neutral-200/80 dark:border-white/10">
                 <div>
                   <h3 className="text-sm font-bold text-neutral-950 dark:text-white">
-                    Bangalore Porter Dispatch Center ({orders.length} Active Orders)
+                    Bangalore Borzo Dispatch Center ({orders.length} Active Orders)
                   </h3>
                   <p className="text-xs text-neutral-500">
                     Real-time courier dispatch pipeline with live OTP verification
@@ -1220,7 +1220,7 @@ export default function AdminPage() {
                   </div>
                   <h3 className="text-sm font-bold text-neutral-900 dark:text-white">No Active Dispatches</h3>
                   <p className="text-xs text-neutral-500 max-w-sm mx-auto">
-                    When customers place orders, assigned Porter 2-Wheeler riders and live GPS telemetry will appear here in real-time.
+                    When customers place orders, assigned Borzo 2-Wheeler riders and live GPS telemetry will appear here in real-time.
                   </p>
                 </div>
               ) : (
@@ -1271,7 +1271,7 @@ export default function AdminPage() {
                             <span>{order.items?.length || 0} items</span>
                           </div>
                           <p className="text-[10px] font-mono text-neutral-500">
-                            Porter: <span className="text-[#e51e2b] font-bold">{order.porterTrackingId || 'PTR-BLR-AUTO'}</span> ({order.porterRider?.name || 'Assigned Rider'})
+                            Borzo: <span className="text-[#e51e2b] font-bold">{order.porterTrackingId || 'BRZ-BLR-AUTO'}</span> ({order.porterRider?.name || 'Assigned Rider'})
                           </p>
                         </div>
                       </div>
@@ -1333,10 +1333,10 @@ export default function AdminPage() {
                 </h3>
                 <div className="space-y-3">
                   {[
-                    { key: 'microcontrollers', label: 'Development Boards & SBCs', color: 'bg-[#e51e2b]' },
-                    { key: 'sensors', label: 'Precision Sensors & Bosch IMUs', color: 'bg-emerald-500' },
-                    { key: 'actuators', label: 'Displays & Motion Actuators', color: 'bg-blue-500' },
-                    { key: 'tools', label: 'Lab Workbench & Soldering Tools', color: 'bg-amber-500' },
+                    { key: 'arduino', label: 'Arduino Development Boards', color: 'bg-teal-500' },
+                    { key: 'esp32', label: 'ESP32 & Wireless Boards', color: 'bg-[#e51e2b]' },
+                    { key: 'stm32', label: 'STM32 Development Boards', color: 'bg-blue-500' },
+                    { key: 'raspberry-pi', label: 'Raspberry Pi Boards & RP2040/2350', color: 'bg-purple-500' },
                   ].map((cat) => {
                     const count = products.filter((p) => p.category === cat.key).length;
                     const percent = products.length > 0 ? Math.round((count / products.length) * 100) : 0;

@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, ArrowLeft, Cpu, Zap, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
+import { supabase } from '@/lib/supabase/client';
 import { DspaceLogo } from '@/components/ui/dspace-logo';
 
 export function LoginPage() {
@@ -19,6 +20,61 @@ export function LoginPage() {
     password: '',
     rememberMe: true,
   });
+
+  // Handle OAuth hash tokens (implicit flow) and error query params
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const hash = window.location.hash;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // If an access_token is present in the hash fragment (Supabase OAuth implicit response)
+    if (hash && hash.includes('access_token=')) {
+      const hashParams = new URLSearchParams(hash.replace(/^#/, ''));
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+
+      if (accessToken && refreshToken) {
+        setIsLoading(true);
+        setErrorMessage('');
+        supabase.auth
+          .setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          })
+          .then(({ data, error }) => {
+            if (!error && data?.session) {
+              const userEmail = data.session.user?.email?.toLowerCase().trim() || '';
+              window.history.replaceState(null, '', '/signin');
+              if (userEmail === 'admin@dspace.com') {
+                router.push('/admin');
+              } else {
+                router.push('/account');
+              }
+            } else {
+              setIsLoading(false);
+              setErrorMessage(error?.message || 'Failed to establish OAuth session.');
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            setErrorMessage(err?.message || 'Authentication error.');
+          });
+        return;
+      }
+    }
+
+    // Check if error parameter exists without valid tokens
+    const errorParam = urlParams.get('error');
+    const errorDescription = urlParams.get('error_description');
+    if (errorParam && (!hash || !hash.includes('access_token='))) {
+      if (errorParam === 'oauth_failed') {
+        setErrorMessage('Google authentication could not be completed. Please try again.');
+      } else {
+        setErrorMessage(decodeURIComponent(errorDescription || errorParam));
+      }
+    }
+  }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;

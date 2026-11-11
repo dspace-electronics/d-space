@@ -31,7 +31,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const ADMIN_EMAILS = ['admin@dspace.com'];
+const ADMIN_EMAILS = [
+  'admin@dspace.com',
+  ...(process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',').map((e) => e.trim().toLowerCase()) || []),
+];
 
 const checkIsAdmin = (email: string, metaRole?: string): boolean => {
   if (metaRole === 'admin') return true;

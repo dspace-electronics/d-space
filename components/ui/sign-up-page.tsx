@@ -261,7 +261,7 @@ export function SignUpPage() {
                   required
                 />
                 <span className="text-xs text-neutral-600 dark:text-neutral-400">
-                  I agree to the Few-Hour Porter SLA &amp; Lab Terms
+                  I agree to the Few-Hour Borzo SLA &amp; Lab Terms
                 </span>
               </div>
 

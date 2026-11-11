@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS public.products (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
-  category TEXT NOT NULL CHECK (category IN ('microcontrollers', 'sensors', 'power', 'actuators', 'passives', 'tools')),
+  category TEXT NOT NULL CHECK (category IN ('arduino', 'esp32', 'stm32', 'raspberry-pi', 'microcontrollers', 'sensors', 'power', 'actuators', 'passives', 'tools')),
   price NUMERIC NOT NULL CHECK (price >= 0),
   compare_price NUMERIC,
   stock INTEGER NOT NULL DEFAULT 0,
@@ -87,7 +87,7 @@ CREATE POLICY "Only admins can delete products"
     )
   );
 
--- 3. Create Orders & Porter Logistics Table
+-- 3. Create Orders & Borzo Logistics Table
 CREATE TABLE IF NOT EXISTS public.orders (
   id TEXT PRIMARY KEY,
   order_number TEXT NOT NULL UNIQUE,
@@ -129,7 +129,7 @@ CREATE POLICY "Users can create orders"
   ON public.orders FOR INSERT
   WITH CHECK (true);
 
--- Orders Policy 3: STRICT RBAC - Only Admins can update order status / dispatch Porter courier
+-- Orders Policy 3: STRICT RBAC - Only Admins can update order status / dispatch Borzo courier
 CREATE POLICY "Only admins can update order status"
   ON public.orders FOR UPDATE
   USING (

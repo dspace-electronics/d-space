@@ -183,7 +183,7 @@ export default function AccountPage() {
               Authentication Required
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Please sign in to view your Bengaluru Porter orders, item receipts, saved lab addresses, and telemetry dispatch history.
+              Please sign in to view your Bengaluru Borzo orders, item receipts, saved lab addresses, and telemetry dispatch history.
             </p>
           </div>
 
@@ -361,7 +361,7 @@ export default function AccountPage() {
                       <Truck className="w-5 h-5" />
                     </div>
                     <h4 className="text-sm font-bold text-neutral-950 dark:text-white group-hover:text-amber-500 transition-colors">
-                      Live Porter Dispatch
+                      Live Borzo Dispatch
                     </h4>
                     <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
                       Manage rider assignments and live telemetry for Bengaluru zones.
@@ -434,7 +434,7 @@ export default function AccountPage() {
                   <div className="p-4 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50/60 dark:bg-white/5 space-y-1">
                     <span className="font-bold text-neutral-950 dark:text-white block">Express Courier Fleet:</span>
                     <p className="text-neutral-600 dark:text-neutral-300">
-                      Porter 2-Wheeler On-Demand API Integration · Dedicated ESD delivery thermal boxes.
+                      Borzo 2-Wheeler On-Demand API Integration · Dedicated ESD delivery thermal boxes.
                     </p>
                   </div>
                 </div>
@@ -525,7 +525,7 @@ export default function AccountPage() {
                 <div>
                   <h3 className="text-base font-bold text-neutral-950 dark:text-white">Recent Orders &amp; Dispatch History</h3>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                    Track live Porter 2-Wheeler delivery telemetry in real time.
+                    Track live Borzo 2-Wheeler delivery telemetry in real time.
                   </p>
                 </div>
               </div>
@@ -561,7 +561,7 @@ export default function AccountPage() {
                             </span>
                           </div>
                           <span className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 block">
-                            Placed {new Date(ord.createdAt).toLocaleDateString('en-IN')} · Porter Courier to {ord.blrZone.name}
+                            Placed {new Date(ord.createdAt).toLocaleDateString('en-IN')} · Borzo Courier to {ord.blrZone.name}
                           </span>
                         </div>
 
@@ -888,7 +888,7 @@ export default function AccountPage() {
 
                 <div className="flex items-center justify-between p-3.5 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50/60 dark:bg-white/5">
                   <div>
-                    <p className="font-bold text-neutral-950 dark:text-white">WhatsApp Porter Tracking Updates</p>
+                    <p className="font-bold text-neutral-950 dark:text-white">WhatsApp Borzo Tracking Updates</p>
                     <p className="text-neutral-500 dark:text-neutral-400 text-[11px]">
                       Send live GPS link when the 2-Wheeler courier leaves the HAL Hub
                     </p>
