@@ -7,8 +7,9 @@ type Theme = 'light' | 'dark';
 interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
+  toggleTheme: (event?: React.MouseEvent<HTMLElement> | MouseEvent) => void;
   isDark: boolean;
+  mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -28,30 +29,92 @@ function applyTheme(t: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // Stable initial state for SSR and initial client hydration
   const [theme, setThemeState] = useState<Theme>('dark');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('dspace-theme') as Theme | null;
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      setThemeState(savedTheme);
-      applyTheme(savedTheme);
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const initial = prefersDark ? 'dark' : 'dark';
-      setThemeState(initial);
-      applyTheme(initial);
+    setMounted(true);
+    try {
+      const savedTheme = localStorage.getItem('dspace-theme') as Theme | null;
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        setThemeState(savedTheme);
+        applyTheme(savedTheme);
+      } else {
+        setThemeState('dark');
+        applyTheme('dark');
+      }
+    } catch {
+      applyTheme('dark');
     }
   }, []);
 
-  const setTheme = (t: Theme) => {
-    setThemeState(t);
-    localStorage.setItem('dspace-theme', t);
-    applyTheme(t);
+  const triggerThemeChange = (nextTheme: Theme, event?: React.MouseEvent<HTMLElement> | MouseEvent) => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      setThemeState(nextTheme);
+      return;
+    }
+
+    const apply = () => {
+      setThemeState(nextTheme);
+      localStorage.setItem('dspace-theme', nextTheme);
+      applyTheme(nextTheme);
+    };
+
+    // Use native View Transitions API with circular ripple when supported
+    const isDocWithTransition = document as unknown as {
+      startViewTransition?: (callback: () => void) => {
+        ready: Promise<void>;
+      };
+    };
+
+    if (
+      typeof isDocWithTransition.startViewTransition === 'function' &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      const x = event?.clientX ?? window.innerWidth - 80;
+      const y = event?.clientY ?? 30;
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      const isGoingDark = nextTheme === 'dark';
+      const transition = isDocWithTransition.startViewTransition(() => {
+        apply();
+      });
+
+      transition.ready.then(() => {
+        const clipPath = [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
+        ];
+        document.documentElement.animate(
+          {
+            clipPath: isGoingDark ? clipPath : [...clipPath].reverse(),
+          },
+          {
+            duration: 380,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            pseudoElement: isGoingDark
+              ? '::view-transition-new(root)'
+              : '::view-transition-old(root)',
+          }
+        );
+      });
+    } else {
+      apply();
+    }
   };
 
-  const toggleTheme = () => {
+  const setTheme = (t: Theme) => {
+    if (t === theme) return;
+    triggerThemeChange(t);
+  };
+
+  const toggleTheme = (event?: React.MouseEvent<HTMLElement> | MouseEvent) => {
     const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
+    triggerThemeChange(next, event);
   };
 
   return (
@@ -61,6 +124,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setTheme,
         toggleTheme,
         isDark: theme === 'dark',
+        mounted,
       }}
     >
       {children}
