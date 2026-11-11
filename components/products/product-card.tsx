@@ -52,7 +52,7 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
     return (
       <div className="group relative bg-white dark:bg-[#0e1117] border border-neutral-200/80 dark:border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 hover:border-neutral-300 dark:hover:border-white/25 hover:shadow-xl transition-all">
         {/* Thumbnail Image */}
-        <Link href={`/product/${product.slug}`} className="relative w-full sm:w-40 h-40 shrink-0 overflow-hidden rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-white/10 block">
+        <Link href={`/product/${product.slug}`} className="relative w-full sm:w-40 h-40 shrink-0 overflow-hidden rounded-xl bg-white dark:bg-[#12161f] border border-neutral-200 dark:border-white/10 block p-2">
           <img
             src={primaryImage}
             alt={product.title}
@@ -62,7 +62,7 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
                 target.src = fallbackImage;
               }
             }}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
           />
           {discountPercent > 0 && (
             <span className="absolute top-2 left-2 bg-[#e51e2b] text-white text-[10px] font-bold px-2 py-0.5 rounded-md font-mono">
@@ -172,8 +172,8 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
       className="group relative bg-white dark:bg-[#0e1117] border border-neutral-200/80 dark:border-white/10 rounded-2xl overflow-hidden hover:border-neutral-300 dark:hover:border-white/25 hover:shadow-xl dark:hover:shadow-2xl transition-all flex flex-col justify-between"
     >
       {/* Top Image Box with Dual Flip */}
-      <div className="relative aspect-4/3 w-full bg-neutral-100 dark:bg-neutral-900 overflow-hidden border-b border-neutral-200/80 dark:border-white/10">
-        <Link href={`/product/${product.slug}`} className="block w-full h-full">
+      <div className="relative aspect-4/3 w-full bg-white dark:bg-[#12161f] overflow-hidden border-b border-neutral-200/80 dark:border-white/10 p-3 sm:p-4">
+        <Link href={`/product/${product.slug}`} className="block w-full h-full relative">
           <img
             src={isHovered && product.images.length > 1 ? secondaryImage : primaryImage}
             alt={product.title}
@@ -183,7 +183,7 @@ export function ProductCard({ product, viewMode = 'grid' }: ProductCardProps) {
                 target.src = fallbackImage;
               }
             }}
-            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
           />
         </Link>
 

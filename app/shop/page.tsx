@@ -104,7 +104,7 @@ function ShopContent() {
               Precision Electronics Catalog
             </h1>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-              Browse {products.length} verified laboratory dev boards, precision sensors, power supplies, and workbench tools.
+              Browse {products.length} verified Arduino, ESP32, STM32, and Raspberry Pi development boards.
             </p>
           </div>
 

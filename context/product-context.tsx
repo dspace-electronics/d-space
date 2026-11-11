@@ -38,7 +38,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
       const res = await getProductsAction();
       if (res.success && res.data && res.data.length > 0) {
         setProducts(res.data);
-        localStorage.setItem('dspace_products_v2', JSON.stringify(res.data));
+        localStorage.setItem('dspace_products_v7', JSON.stringify(res.data));
       }
     } catch (err) {
       console.warn('Could not fetch from server actions, using client state:', err);
@@ -48,21 +48,27 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    localStorage.removeItem('dspace_products'); // Clean old legacy cache
-    localStorage.removeItem('dspace_products_v2'); // Clean old 36 items cache
+    localStorage.removeItem('dspace_products');
+    localStorage.removeItem('dspace_products_v2');
+    localStorage.removeItem('dspace_products_v3');
+    localStorage.removeItem('dspace_products_v4');
+    localStorage.removeItem('dspace_products_v5');
+    localStorage.removeItem('dspace_products_v6');
 
-    const saved = localStorage.getItem('dspace_products_v3');
+    const saved = localStorage.getItem('dspace_products_v7');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Filter to valid base components or newly created admin components
           const validBaseIds = new Set(INITIAL_PRODUCTS.map((p) => p.id));
           const cleaned = parsed.filter((p: Product) => validBaseIds.has(p.id) || p.id.startsWith('dsp-'));
-          if (cleaned.length > 0) {
+          // Check if categories match current catalog (e.g. esp32)
+          const isCategorySynced = cleaned.some((p: Product) => p.category === 'esp32');
+          if (cleaned.length >= INITIAL_PRODUCTS.length && isCategorySynced) {
             setProducts(cleaned);
           } else {
             setProducts(INITIAL_PRODUCTS);
+            localStorage.setItem('dspace_products_v7', JSON.stringify(INITIAL_PRODUCTS));
           }
         }
       } catch {
@@ -70,14 +76,14 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
       }
     } else {
       setProducts(INITIAL_PRODUCTS);
-      localStorage.setItem('dspace_products_v3', JSON.stringify(INITIAL_PRODUCTS));
+      localStorage.setItem('dspace_products_v7', JSON.stringify(INITIAL_PRODUCTS));
     }
     refreshProducts();
   }, []);
 
   const saveProducts = (updated: Product[]) => {
     setProducts(updated);
-    localStorage.setItem('dspace_products_v3', JSON.stringify(updated));
+    localStorage.setItem('dspace_products_v7', JSON.stringify(updated));
   };
 
   const addProduct = async (

@@ -63,7 +63,7 @@ export function ProductGallery({ images, title, pinoutUrl, datasheetUrl }: Produ
           onMouseLeave={() => setIsZoomed(false)}
           onMouseMove={handleMouseMove}
           onClick={() => setShowFullscreen(true)}
-          className="relative aspect-4/3 w-full bg-[#0e1117] border border-white/10 rounded-2xl overflow-hidden cursor-crosshair shadow-sm group"
+          className="relative aspect-4/3 w-full bg-white dark:bg-[#12161f] border border-neutral-200 dark:border-white/10 rounded-2xl overflow-hidden cursor-crosshair shadow-sm group p-4"
         >
           {/* Base Image */}
           <img
@@ -73,7 +73,7 @@ export function ProductGallery({ images, title, pinoutUrl, datasheetUrl }: Produ
               const target = e.target as HTMLImageElement;
               target.src = 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85';
             }}
-            className="w-full h-full object-cover select-none"
+            className="w-full h-full object-contain select-none"
           />
 
           {/* Optical Zoom Pan Layer */}

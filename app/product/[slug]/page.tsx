@@ -342,7 +342,7 @@ export default function ProductDetailPage({
             </div>
 
             <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-snug">
-              Order placed before 7:00 PM dispatches via dedicated Porter 2-Wheeler rider immediately.
+              Order placed before 7:00 PM dispatches via dedicated Borzo 2-Wheeler rider immediately.
             </p>
           </div>
         </div>
