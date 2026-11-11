@@ -29,8 +29,8 @@ interface CartContextType {
   removePromoCode: () => void;
   selectedZone: BLRZone;
   setSelectedZone: (zone: BLRZone) => void;
-  courierOption: 'porter_2wheeler' | 'porter_express';
-  setCourierOption: (option: 'porter_2wheeler' | 'porter_express') => void;
+  courierOption: 'borzo_2wheeler' | 'borzo_express' | string;
+  setCourierOption: (option: 'borzo_2wheeler' | 'borzo_express' | string) => void;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
   openCart: () => void;
@@ -52,12 +52,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [items, setItems] = useState<CartItem[]>([]);
   const [selectedZone, setSelectedZone] = useState<BLRZone>(BLR_ZONES[0]); // HSR Layout default
-  const [courierOption, setCourierOption] = useState<'porter_2wheeler' | 'porter_express'>('porter_2wheeler');
+  const [courierOption, setCourierOption] = useState<'borzo_2wheeler' | 'borzo_express' | string>('borzo_2wheeler');
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string | null>(null);
   const [promoDiscount, setPromoDiscount] = useState<PromoDiscount | null>(null);
 
-  const freeDeliveryThreshold = 999;
+  // Profitable threshold: average margin on ₹1,499+ orders is ₹375–₹500+, comfortably absorbing courier fee
+  const freeDeliveryThreshold = 1499;
 
   // Load from localStorage on client mount
   useEffect(() => {
@@ -178,10 +179,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const discountedSubtotal = Math.max(0, subtotal - discount);
 
   const isFreeDelivery = subtotal >= freeDeliveryThreshold && items.length > 0;
+  // Dynamic profitable Borzo courier fee calculation based on zone distance + packaging
   const baseCourierFee =
-    courierOption === 'porter_express'
-      ? selectedZone.expressDispatchFee
-      : selectedZone.porterBikeFee;
+    courierOption === 'borzo_express'
+      ? Math.max(89, selectedZone.expressDispatchFee + 10)
+      : Math.max(55, selectedZone.porterBikeFee + 6);
 
   const deliveryFee = items.length === 0 ? 0 : isFreeDelivery ? 0 : baseCourierFee;
   const total = discountedSubtotal + deliveryFee;

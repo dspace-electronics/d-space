@@ -2,10 +2,11 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Cpu, AlertCircle, Check, Loader2, UploadCloud, Link as LinkIcon, Trash2, ShieldCheck, Zap, Radio, BatteryCharging, Tv, Wrench, CircleDot } from 'lucide-react';
+import { X, Plus, Cpu, AlertCircle, Check, Loader2, UploadCloud, Link as LinkIcon, Trash2, ShieldCheck, Zap, Radio, BatteryCharging, Tv, Wrench, CircleDot, Wifi, Layers, Terminal } from 'lucide-react';
 import { useProducts } from '@/context/product-context';
 import { useAuth } from '@/context/auth-context';
 import { CustomSelect, SelectOption } from '@/components/ui/custom-select';
+import { ProductCategory } from '@/lib/types';
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -13,12 +14,10 @@ interface AddProductModalProps {
 }
 
 const CATEGORY_OPTIONS: SelectOption[] = [
-  { value: 'microcontrollers', label: 'Microcontrollers & SOCs', description: 'ESP32, RP2040, STM32, Arduino', icon: <Cpu className="w-3.5 h-3.5 text-[#e51e2b]" /> },
-  { value: 'sensors', label: 'Sensors & IMUs', description: 'IMU, ToF, Temp, Gas, Current', icon: <Radio className="w-3.5 h-3.5 text-blue-500" /> },
-  { value: 'power', label: 'Power & Battery ICs', description: 'Buck/Boost, BMS, LiPo, USB-C PD', icon: <BatteryCharging className="w-3.5 h-3.5 text-amber-500" /> },
-  { value: 'actuators', label: 'Displays & Relays', description: 'OLED, TFT, Solid State Relays', icon: <Tv className="w-3.5 h-3.5 text-purple-500" /> },
-  { value: 'tools', label: 'Lab & Soldering Tools', description: 'Soldering Irons, Logic Analyzers', icon: <Wrench className="w-3.5 h-3.5 text-emerald-500" /> },
-  { value: 'passives', label: 'Passives & Silicon ICs', description: 'Op-Amps, Logic Gates, SMD Passives', icon: <CircleDot className="w-3.5 h-3.5 text-cyan-500" /> },
+  { value: 'arduino', label: 'Arduino Boards', description: 'Uno, Mega, Nano, GIGA, Due', icon: <Cpu className="w-3.5 h-3.5 text-teal-500" /> },
+  { value: 'esp32', label: 'ESP32 & Wireless', description: 'ESP32, S2, S3, C3, C6, ESP8266', icon: <Wifi className="w-3.5 h-3.5 text-[#e51e2b]" /> },
+  { value: 'stm32', label: 'STM32 Development', description: 'Nucleo, Black Pill, Blue Pill, Discovery', icon: <Layers className="w-3.5 h-3.5 text-blue-500" /> },
+  { value: 'raspberry-pi', label: 'Raspberry Pi SBC & MCU', description: 'Pi 5, Pi 4, Zero 2 W, CM4, Pico', icon: <Terminal className="w-3.5 h-3.5 text-purple-500" /> },
 ];
 
 export function AddProductModal({ isOpen, onClose }: AddProductModalProps) {
@@ -27,11 +26,11 @@ export function AddProductModal({ isOpen, onClose }: AddProductModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState<'microcontrollers' | 'sensors' | 'power' | 'actuators' | 'passives' | 'tools'>('microcontrollers');
+  const [category, setCategory] = useState<ProductCategory>('arduino');
   const [price, setPrice] = useState('350');
   const [comparePrice, setComparePrice] = useState('450');
-  const [stock, setStock] = useState('50');
-  const [blrHubStock, setBlrHubStock] = useState('20');
+  const [stock, setStock] = useState('5');
+  const [blrHubStock, setBlrHubStock] = useState('5');
   const [voltage, setVoltage] = useState('3.3V Logic');
   const [interfaceType, setInterfaceType] = useState('I2C / SPI');
   const [description, setDescription] = useState('');
@@ -120,7 +119,7 @@ export function AddProductModal({ isOpen, onClose }: AddProductModalProps) {
         features: [
           'Tested in Bengaluru hardware lab',
           'ESD-safe sealed packaging',
-          'Same-day Porter 2-Wheeler dispatch eligible',
+          'Same-day Borzo 2-Wheeler dispatch eligible',
         ],
         imageUrl: finalImageUrl,
         images: [finalImageUrl],

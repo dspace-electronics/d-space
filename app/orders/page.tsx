@@ -34,7 +34,7 @@ export default function OrdersPage() {
             Bengaluru Orders &amp; Live Tracking
           </h1>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-            Real-time status of component deliveries dispatched via Porter 2-Wheeler
+            Real-time status of component deliveries dispatched via Borzo 2-Wheeler
           </p>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default function OrdersPage() {
           </div>
           <h2 className="text-lg font-bold text-neutral-900 dark:text-white">Sign In to View Orders</h2>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
-            Sign in with your account to view your live orders and track your Porter 2-Wheeler courier in real time.
+            Sign in with your account to view your live orders and track your Borzo 2-Wheeler courier in real time.
           </p>
           <div className="pt-2 flex items-center justify-center gap-3">
             <Link
@@ -70,7 +70,7 @@ export default function OrdersPage() {
           </div>
           <h2 className="text-lg font-bold text-neutral-900 dark:text-white">No Orders Placed Yet</h2>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
-            Place an order from our silicon components catalog to track your Porter courier in real-time.
+            Place an order from our silicon components catalog to track your Borzo courier in real-time.
           </p>
           <Link
             href="/shop"
@@ -134,10 +134,10 @@ export default function OrdersPage() {
                   <span className="text-neutral-400 block mb-1 font-medium font-mono uppercase text-[10px]">Logistics &amp; Rider:</span>
                   <div className="flex items-center gap-2 text-neutral-900 dark:text-white">
                     <Bike className="h-4 w-4 text-[#e51e2b]" />
-                    <span className="font-bold">Porter 2-Wheeler ({ord.porterTrackingId || 'PTR-BLR-AUTO'})</span>
+                    <span className="font-bold">Borzo 2-Wheeler ({ord.porterTrackingId || 'BRZ-BLR-AUTO'})</span>
                   </div>
                   <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-                    Rider: {ord.porterRider?.name || 'Assigned Rider'} • {ord.estimatedDeliveryTime || 'In 30 mins via Porter'}
+                    Rider: {ord.porterRider?.name || 'Assigned Rider'} • {ord.estimatedDeliveryTime || 'In 30 mins via Borzo'}
                   </p>
                 </div>
               </div>
@@ -159,7 +159,7 @@ export default function OrdersPage() {
                   href={`/tracking/${ord.id}`}
                   className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#e51e2b] hover:bg-[#c91823] active:bg-[#a5151e] text-white font-bold text-xs shadow-xs transition-colors"
                 >
-                  <span>Live Porter Map Tracking</span>
+                  <span>Live Borzo Map Tracking</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </div>

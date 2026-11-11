@@ -164,11 +164,10 @@ export function CommandPalette() {
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 px-1">
                       {[
-                        { name: 'Development Boards & SBCs', path: '/shop?category=microcontrollers' },
-                        { name: 'Precision Sensors & IMUs', path: '/shop?category=sensors' },
-                        { name: 'Power & Battery Management', path: '/shop?category=power' },
-                        { name: 'Displays & Actuators', path: '/shop?category=actuators' },
-                        { name: 'Lab Workbench & Soldering', path: '/shop?category=tools' },
+                        { name: 'Arduino Development Boards', path: '/shop?category=arduino' },
+                        { name: 'ESP32 & Wireless Boards', path: '/shop?category=esp32' },
+                        { name: 'STM32 Development Boards', path: '/shop?category=stm32' },
+                        { name: 'Raspberry Pi Boards & RP2040/2350', path: '/shop?category=raspberry-pi' },
                         { name: `All Catalog Products (${products.length})`, path: '/shop' },
                       ].map((item) => (
                         <button

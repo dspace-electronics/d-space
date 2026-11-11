@@ -25,7 +25,7 @@ export default function OrderTrackingPage() {
             Order Not Found
           </h2>
           <p className="text-xs text-gray-500 mb-4">
-            Could not find an active Porter courier assignment for code &ldquo;{id}&rdquo;.
+            Could not find an active Borzo courier assignment for code &ldquo;{id}&rdquo;.
           </p>
           <Link
             href="/"

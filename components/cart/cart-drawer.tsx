@@ -109,7 +109,7 @@ export function CartDrawer() {
                     <span className="font-medium text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5">
                       <Truck className="w-3.5 h-3.5 text-[#e51e2b]" />
                       {amountForFreeDelivery === 0 ? (
-                        <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Free Bengaluru Porter Delivery Unlocked!</span>
+                        <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Free Bengaluru Borzo Delivery Unlocked!</span>
                       ) : (
                         <span>
                           Add <span className="font-mono font-bold text-neutral-950 dark:text-white">₹{amountForFreeDelivery}</span> for Free Delivery
@@ -284,7 +284,7 @@ export function CartDrawer() {
 
                     <div className="flex justify-between">
                       <span className="flex items-center gap-1">
-                        Porter 2-Wheeler Dispatch
+                        Borzo 2-Wheeler Dispatch
                         <span className="text-[10px] text-neutral-400">({selectedZone.name})</span>
                       </span>
                       <span className="font-mono font-medium text-neutral-900 dark:text-white">
@@ -314,7 +314,7 @@ export function CartDrawer() {
                   </button>
 
                   <p className="text-[11px] text-center text-neutral-400">
-                    Dispatched in few hours via Porter from New Thippasandra Hub · Tested Silicon
+                    Dispatched in few hours via Borzo from New Thippasandra Hub · Tested Silicon
                   </p>
                 </div>
               )}

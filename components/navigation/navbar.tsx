@@ -214,7 +214,7 @@ export function Navbar() {
                           >
                             <div className="flex items-center gap-2.5">
                               <Truck className="w-4 h-4 text-neutral-400" />
-                              <span>Live Porter Dispatch Radar</span>
+                              <span>Live Borzo Dispatch Radar</span>
                             </div>
                             <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
                           </Link>

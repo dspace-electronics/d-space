@@ -133,7 +133,7 @@ export async function openRazorpayCheckout({
       amount: amount || Math.round(amountInRupees * 100),
       currency: 'INR',
       name: 'Dspace Electronics',
-      description: `Bengaluru Porter Dispatch: Order #${orderNumber}`,
+      description: `Bengaluru Borzo Dispatch: Order #${orderNumber}`,
       image: '/dspace-logo.jpeg',
       order_id: orderId,
       handler: async function (response) {
@@ -169,7 +169,7 @@ export async function openRazorpayCheckout({
       },
       notes: {
         store_location: 'New Thippasandra Hub, Bengaluru',
-        courier: 'Porter 2-Wheeler Express',
+        courier: 'Borzo 2-Wheeler Dispatch',
         order_number: orderNumber,
       },
       theme: {

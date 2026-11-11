@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Bike, ShieldCheck, CreditCard, QrCode, CheckCircle2, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { X, Bike, Truck, ShieldCheck, CreditCard, QrCode, CheckCircle2, ArrowRight, Loader2, Sparkles, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useCart } from '@/context/cart-context';
 import { useOrders } from '@/context/order-context';
@@ -139,7 +139,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       Express Bengaluru Checkout
                     </h3>
                     <p className="text-xs text-gray-500">
-                      Dispatched via Porter 2-Wheeler to {selectedZone.name}
+                      Dispatched via Borzo 2-Wheeler to {selectedZone.name}
                     </p>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
                   <div>
                     <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      Phone Number (For Porter Delivery Call)
+                      Phone Number (For Borzo Delivery Call)
                     </label>
                     <input
                       type="tel"
@@ -201,61 +201,61 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   </div>
                 </div>
 
-                {/* Delivery Speed / Porter Courier Options */}
+                {/* Delivery Speed / Borzo Courier Options */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">
-                    Delivery Speed & Logistics
+                    Delivery Speed & Logistics (Borzo On-Demand 2-Wheeler)
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {/* Cheapest Porter 2-Wheeler Option */}
+                    {/* Borzo Standard 2-Wheeler */}
                     <div
-                      onClick={() => setCourierOption('porter_2wheeler')}
+                      onClick={() => setCourierOption('borzo_2wheeler')}
                       className={`p-3 rounded-xl border cursor-pointer transition-all apple-btn-press ${
-                        courierOption === 'porter_2wheeler'
-                          ? 'border-red-600 bg-red-50/70 shadow-2xs'
+                        courierOption === 'borzo_2wheeler'
+                          ? 'border-emerald-600 bg-emerald-50/70 shadow-2xs'
                           : 'border-gray-200 bg-white hover:bg-gray-50'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5 font-bold text-xs text-gray-900">
-                          <Bike className="h-3.5 w-3.5 text-red-600" />
-                          <span>Porter 2-Wheeler</span>
+                          <Bike className="h-3.5 w-3.5 text-emerald-600" />
+                          <span>Borzo Standard</span>
                         </div>
                         <span className="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
-                          Cheapest
+                          Recommended
                         </span>
                       </div>
                       <p className="text-[11px] text-gray-500 mt-1">
-                        Standard bike courier • ~{selectedZone.deliveryEtaMinutes}m
+                        Hyper-local 2-wheeler • ~{selectedZone.deliveryEtaMinutes}m
                       </p>
                       <span className="text-xs font-bold text-gray-900 mt-1 block">
-                        ₹{selectedZone.porterBikeFee}
+                        ₹{Math.max(55, selectedZone.porterBikeFee + 6)}
                       </span>
                     </div>
 
-                    {/* Porter Priority Express */}
+                    {/* Borzo Priority Direct Express */}
                     <div
-                      onClick={() => setCourierOption('porter_express')}
+                      onClick={() => setCourierOption('borzo_express')}
                       className={`p-3 rounded-xl border cursor-pointer transition-all apple-btn-press ${
-                        courierOption === 'porter_express'
-                          ? 'border-red-600 bg-red-50/70 shadow-2xs'
+                        courierOption === 'borzo_express'
+                          ? 'border-amber-600 bg-amber-50/70 shadow-2xs'
                           : 'border-gray-200 bg-white hover:bg-gray-50'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5 font-bold text-xs text-gray-900">
-                          <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                          <span>Porter Express</span>
+                          <Zap className="h-3.5 w-3.5 text-amber-500" />
+                          <span>Borzo Express</span>
                         </div>
-                        <span className="text-[10px] uppercase font-semibold text-gray-500">
-                          Priority
+                        <span className="text-[10px] uppercase font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                          VIP Priority
                         </span>
                       </div>
                       <p className="text-[11px] text-gray-500 mt-1">
-                        Direct EV bike • ~{Math.max(18, selectedZone.deliveryEtaMinutes - 10)}m
+                        Dedicated rider • ~{Math.max(18, selectedZone.deliveryEtaMinutes - 10)}m
                       </p>
                       <span className="text-xs font-bold text-gray-900 mt-1 block">
-                        ₹{selectedZone.expressDispatchFee}
+                        ₹{Math.max(89, selectedZone.expressDispatchFee + 10)}
                       </span>
                     </div>
                   </div>
@@ -301,7 +301,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     <span>₹{subtotal}</span>
                   </div>
                   <div className="flex justify-between text-gray-500">
-                    <span>Porter Courier Fee</span>
+                    <span>Borzo Courier Fee</span>
                     <span>{deliveryFee === 0 ? <strong className="text-emerald-700">FREE</strong> : `₹${deliveryFee}`}</span>
                   </div>
                   <div className="flex justify-between text-sm font-bold text-gray-900 pt-1 border-t border-gray-200">
@@ -319,11 +319,11 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                   {isProcessing ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Connecting to Razorpay & Assigning Porter...</span>
+                      <span>Connecting to Razorpay & Assigning Borzo Rider...</span>
                     </>
                   ) : (
                     <>
-                      <span>Pay ₹{total} via Razorpay & Dispatch Porter</span>
+                      <span>Pay ₹{total} via Razorpay & Dispatch Borzo</span>
                       <ArrowRight className="h-4 w-4" />
                     </>
                   )}
@@ -345,7 +345,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                 Order Confirmed!
               </h3>
               <p className="text-xs text-gray-500 mb-6 max-w-sm mx-auto">
-                Your electronic components are being packed in ESD-shielded bags at our New Thippasandra Hub. Porter 2-Wheeler partner is being routed to your location.
+                Your electronic components are being packed in ESD-shielded bags at our New Thippasandra Hub. Borzo 2-Wheeler courier partner is being routed to your location.
               </p>
 
               <div className="p-4 rounded-2xl bg-gray-50 border border-gray-200 text-left mb-6 space-y-2 text-xs">
@@ -359,7 +359,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Courier Partner:</span>
-                  <span className="text-emerald-700 font-bold">Porter 2-Wheeler (Live Tracking Active)</span>
+                  <span className="text-emerald-700 font-bold">Borzo 2-Wheeler (Live Tracking Active)</span>
                 </div>
               </div>
 
@@ -367,7 +367,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                 onClick={handleGoToTracking}
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold text-xs shadow-md apple-btn-press"
               >
-                <span>Open Live Porter GPS Tracking</span>
+                <span>Open Live Borzo GPS Tracking</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

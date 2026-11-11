@@ -125,11 +125,11 @@ export interface Hero39Props {
 export function Hero39({
   backgroundImageUrl = '/hero-hardware.jpg',
   lightBackgroundImageUrl = '/hero-hardware-light.jpg',
-  badgeText = 'BENGALURU FEW-HOUR PORTER DISPATCH ACTIVE',
+  badgeText = 'BENGALURU FEW-HOUR BORZO DISPATCH ACTIVE',
   headingLine1 = 'From Schematic to Silicon,',
   headingLine2Highlight = 'Delivered in Hours.',
-  subtitle = 'Factory-direct ESP32-S3 boards, RP2040 microcontrollers, calibrated Bosch sensors, and precision lab tools. Dispatched across Bengaluru in 2 to 4 hours via Porter.',
-  searchPlaceholder = 'Search chips, sensors, power modules...',
+  subtitle = 'Factory-direct Arduino Uno/GIGA, ESP32-S3/C6, STM32 Nucleo/Discovery, and Raspberry Pi 5 boards. Dispatched across Bengaluru in 2 to 4 hours via Borzo.',
+  searchPlaceholder = 'Search Arduino, ESP32, STM32, Raspberry Pi...',
   buttonText = 'Explore Catalog',
   className = '',
 }: Hero39Props) {
@@ -391,10 +391,10 @@ export function Hero39({
             <div className="mt-3.5 flex flex-wrap items-center justify-center gap-2 text-[11px] font-mono">
               <span className={isDark ? 'text-neutral-400' : 'text-neutral-600 font-semibold'}>Popular:</span>
               {[
-                { label: 'ESP32-S3 N8R8', slug: 'esp32-s3-devkitc-1' },
-                { label: 'RP2040 Pi Pico W', slug: 'raspberry-pi-pico-w' },
-                { label: 'BME688 AI Sensor', slug: 'bme688-air-quality-sensor' },
-                { label: 'Miniware TS101', slug: 'miniware-ts101-soldering-iron' },
+                { label: 'Arduino Uno R4 WiFi', slug: 'arduino-uno-r4-wifi' },
+                { label: 'ESP32-S3 DevKit', slug: 'esp32-s3-devkit' },
+                { label: 'Raspberry Pi 5', slug: 'raspberry-pi-5' },
+                { label: 'STM32 Black Pill', slug: 'stm32f401-f411-black-pill' },
               ].map((item) => (
                 <Link
                   key={item.slug}
@@ -418,7 +418,7 @@ export function Hero39({
           >
             <div className={`flex items-center gap-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
               <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-              <span>2-4 Hr Porter Delivery in BLR</span>
+              <span>2-4 Hr Borzo Delivery in BLR</span>
             </div>
             <div className={`flex items-center gap-1.5 ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />

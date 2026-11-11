@@ -37,7 +37,7 @@ export default function DeliveryPage() {
       setSelectedZone(matched);
       setPincodeResult(`Found: ${matched.name} (${matched.pincode}) • ${matched.deliveryEtaMinutes} mins ETA`);
     } else {
-      setPincodeResult(`Pincode ${clean} is serviced via Standard Porter Express (~60-75 mins).`);
+      setPincodeResult(`Pincode ${clean} is serviced via Standard Borzo Express (~60-75 mins).`);
     }
   };
 
@@ -53,12 +53,12 @@ export default function DeliveryPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 dark:text-white">
-              Check Delivery Time &amp; Porter Courier Fee
+              Check Delivery Time &amp; Borzo Courier Fee
             </h1>
 
             <p className="max-w-3xl text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
               Every development board, sensor, and lab tool in stock is ready for immediate dispatch from our
-              central New Thippasandra / HAL 3rd Stage warehouse. We partner directly with Porter 2-Wheelers to guarantee
+              central New Thippasandra / HAL 3rd Stage warehouse. We partner directly with Borzo 2-Wheelers to guarantee
               rapid delivery to your workbench or robotics lab.
             </p>
 
@@ -77,7 +77,7 @@ export default function DeliveryPage() {
               <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-white/5 p-3.5">
                 <span className="text-xs text-neutral-500 dark:text-neutral-400 block font-mono">FREE SHIPPING BAR</span>
                 <span className="text-sm font-bold text-neutral-950 dark:text-white block mt-0.5">Orders &gt; ₹1,499</span>
-                <span className="text-[11px] text-neutral-500 dark:text-neutral-400">Porter bike fee waived</span>
+                <span className="text-[11px] text-neutral-500 dark:text-neutral-400">Borzo bike fee waived</span>
               </div>
               <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-white/5 p-3.5">
                 <span className="text-xs text-neutral-500 dark:text-neutral-400 block font-mono">PACKAGING SAFETY</span>
@@ -138,7 +138,7 @@ export default function DeliveryPage() {
               initialLat={12.9352}
               initialLng={77.6245}
               height="440px"
-              title="Bengaluru Live Porter Dispatch & Courier Route Simulator"
+              title="Bengaluru Live Borzo Dispatch & Courier Route Simulator"
               onLocationSelect={(loc: LocationSelection) => {
                 const matched = BLR_ZONES.find((z) => loc.area && z.area.toLowerCase().includes(loc.area.toLowerCase()));
                 if (matched) {
@@ -206,7 +206,7 @@ export default function DeliveryPage() {
                   {selectedZone.area} · {selectedZone.popularTechHub}
                 </h3>
                 <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-2xl">
-                  Dispatched via dedicated Porter 2-Wheeler courier directly from our New Thippasandra Hub (HAL 3rd Stage).
+                  Dispatched via dedicated Borzo 2-Wheeler courier directly from our New Thippasandra Hub (HAL 3rd Stage).
                   Live GPS rider tracking URL generated upon handover.
                 </p>
               </div>
@@ -222,7 +222,7 @@ export default function DeliveryPage() {
                 </div>
 
                 <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-[#0e1117] p-4 text-center sm:text-left min-w-[150px]">
-                  <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono block">PORTER COURIER FEE</span>
+                  <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono block">BORZO COURIER FEE</span>
                   <span className="text-2xl font-extrabold text-neutral-950 dark:text-white font-mono block">
                     ₹{selectedZone.porterBikeFee}
                   </span>
@@ -241,7 +241,7 @@ export default function DeliveryPage() {
             {/* SLA Workflow Steps */}
             <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-white/10">
               <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-4">
-                Rapid Porter Fulfillment SLA
+                Rapid Borzo Fulfillment SLA
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-start gap-3 rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-[#0e1117] p-4">
@@ -264,7 +264,7 @@ export default function DeliveryPage() {
                   </div>
                   <div>
                     <span className="text-xs font-bold text-neutral-950 dark:text-white block">
-                      Porter Rider Handover
+                      Borzo Rider Handover
                     </span>
                     <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1 leading-snug">
                       Rider matched at New Thippasandra Hub. Tracking ID and direct rider mobile link sent via SMS and account order history.

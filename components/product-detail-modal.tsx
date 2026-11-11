@@ -79,7 +79,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                   <span>In Stock at HSR Central Hub</span>
                 </div>
                 <p className="text-gray-500 text-[11px]">
-                  <strong>{product.blrHubStock} units</strong> ready for immediate Porter 2-Wheeler pickup. Delivery to {selectedZone.name} in ~{selectedZone.deliveryEtaMinutes} mins.
+                  <strong>{product.blrHubStock} units</strong> ready for immediate Borzo 2-Wheeler pickup. Delivery to {selectedZone.name} in ~{selectedZone.deliveryEtaMinutes} mins.
                 </p>
               </div>
             </div>

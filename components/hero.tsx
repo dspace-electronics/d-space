@@ -63,7 +63,7 @@ export function Hero() {
             {/* Subtitle */}
             <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl mb-7 font-normal">
               Bangalore’s dedicated electronics quick-commerce hub for makers, IoT labs, and hardware startups.
-              Order genuine ESP32-S3s, precision sensors, passives, and soldering tools delivered straight to your lab bench via Porter 2-Wheeler.
+              Order genuine ESP32-S3s, precision sensors, passives, and soldering tools delivered straight to your lab bench via Borzo 2-Wheeler.
             </p>
 
             {/* Call to Action Buttons */}
@@ -82,7 +82,7 @@ export function Hero() {
                 className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-medium text-sm px-5 py-3 rounded-2xl border border-gray-300/80 shadow-2xs hover:border-gray-400 transition-all apple-btn-press"
               >
                 <Bike className="h-4 w-4 text-red-600" />
-                <span>Track Porter Courier</span>
+                <span>Track Borzo Courier</span>
               </Link>
             </div>
 
@@ -90,7 +90,7 @@ export function Hero() {
             <div className="pt-4 border-t border-gray-200/80">
               <div className="flex items-center gap-2 mb-2.5">
                 <span className="text-xs font-semibold text-gray-700">Quick Delivery Hubs:</span>
-                <span className="text-[11px] text-gray-400">Click to calculate Porter ETA</span>
+                <span className="text-[11px] text-gray-400">Click to calculate Borzo ETA</span>
               </div>
               <div className="flex items-center gap-1.5 flex-wrap">
                 {BLR_ZONES.slice(0, 6).map((zone) => {
@@ -129,9 +129,7 @@ export function Hero() {
                         : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                     }`}
                   >
-                    {p.id === 'esp32-s3-devkitc-1' ? 'ESP32-S3' :
-                     p.id === 'raspberry-pi-5-8gb' ? 'Pi 5 (8GB)' :
-                     p.id === 'bme280-environmental-sensor' ? 'BME280' : 'TS101 Iron'}
+                    {p.title.length > 16 ? p.title.slice(0, 16) + '…' : p.title}
                   </button>
                 ))}
               </div>
@@ -166,7 +164,7 @@ export function Hero() {
                 {/* Overlaid ETA pill */}
                 <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-gray-200/80 shadow-xs flex items-center gap-1.5 text-[11px] font-medium text-gray-700">
                   <Bike className="h-3 w-3 text-red-600" />
-                  <span>Porter to {selectedZone.name}: ~{selectedZone.deliveryEtaMinutes}m</span>
+                  <span>Borzo to {selectedZone.name}: ~{selectedZone.deliveryEtaMinutes}m</span>
                 </div>
               </div>
 
@@ -240,7 +238,7 @@ export function Hero() {
               <Bike className="h-5 w-5" />
             </div>
             <div>
-              <span className="font-bold text-xs text-gray-900 block">Porter 2-Wheeler</span>
+              <span className="font-bold text-xs text-gray-900 block">Borzo 2-Wheeler</span>
               <span className="text-[11px] text-gray-500">From ₹49 across BLR</span>
             </div>
           </div>

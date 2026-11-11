@@ -38,7 +38,7 @@ export function OrderDispatchTable() {
           Bengaluru Live Dispatch Queue ({orders.length} Orders)
         </h3>
         <p className="text-xs text-gray-500">
-          Book Porter 2-Wheeler pickups and advance fulfillment milestones
+          Book Borzo 2-Wheeler pickups and advance fulfillment milestones
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export function OrderDispatchTable() {
               <th className="py-3 px-3 font-semibold">Customer & Destination</th>
               <th className="py-3 px-3 font-semibold">Components</th>
               <th className="py-3 px-3 font-semibold">Total & Payment</th>
-              <th className="py-3 px-3 font-semibold">Porter Logistics</th>
+              <th className="py-3 px-3 font-semibold">Borzo Logistics</th>
               <th className="py-3 px-3 font-semibold">Current Status</th>
               <th className="py-3 px-4 font-semibold text-right">Dispatch Action</th>
             </tr>
@@ -124,7 +124,7 @@ export function OrderDispatchTable() {
                         className="px-2.5 py-1 rounded-lg bg-gray-950 hover:bg-gray-800 text-white text-[11px] font-semibold apple-btn-press shadow-2xs"
                       >
                         {ord.status === 'placed' && 'Mark Packed'}
-                        {ord.status === 'packed' && 'Assign Porter'}
+                        {ord.status === 'packed' && 'Assign Borzo'}
                         {ord.status === 'driver_assigned' && 'Dispatch Bike'}
                         {ord.status === 'in_transit' && 'Mark Delivered'}
                       </button>

@@ -16,6 +16,8 @@ import {
   Wrench,
   Gauge,
   ShoppingBag,
+  Wifi,
+  Terminal,
 } from 'lucide-react';
 import { ProductCard } from '@/components/products/product-card';
 import { getFeaturedProducts, getBestSellers, getNewArrivals, CATEGORIES } from '@/lib/products';
@@ -58,7 +60,7 @@ export default function HomePage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-neutral-900 dark:text-white">Porter Few-Hour Delivery Across Bengaluru</span>
+                <span className="text-sm font-bold text-neutral-900 dark:text-white">Borzo On-Demand Delivery Across Bengaluru</span>
                 <span className="text-[10px] font-mono bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">
                   ACTIVE
                 </span>
@@ -98,7 +100,7 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {CATEGORIES.map((cat) => (
             <Link
               key={cat.id}
@@ -107,6 +109,10 @@ export default function HomePage() {
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-neutral-100 dark:bg-white/10 border border-neutral-200/80 dark:border-white/15 flex items-center justify-center text-neutral-900 dark:text-white group-hover:bg-[#e51e2b] group-hover:text-white transition-colors mb-3">
+                  {cat.id === 'arduino' && <Cpu className="w-5 h-5" />}
+                  {cat.id === 'esp32' && <Wifi className="w-5 h-5" />}
+                  {cat.id === 'stm32' && <Layers className="w-5 h-5" />}
+                  {cat.id === 'raspberry-pi' && <Terminal className="w-5 h-5" />}
                   {cat.id === 'microcontrollers' && <Cpu className="w-5 h-5" />}
                   {cat.id === 'sensors' && <Gauge className="w-5 h-5" />}
                   {cat.id === 'power' && <Zap className="w-5 h-5" />}

@@ -91,7 +91,7 @@ export default function OrderConfirmationPage({
 
         <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 max-w-md mx-auto">
           Order ID: <span className="font-mono font-bold text-neutral-900 dark:text-white">{order?.orderNumber || orderId}</span>.
-          A dedicated Porter 2-Wheeler courier will dispatch directly from our HSR Layout hub shortly.
+          A dedicated Borzo 2-Wheeler courier will dispatch directly from our New Thippasandra (HAL 3rd Stage) hub shortly.
         </p>
       </div>
 
@@ -101,7 +101,7 @@ export default function OrderConfirmationPage({
           <div>
             <span className="text-xs font-bold text-[#e51e2b] uppercase tracking-wider flex items-center gap-1.5">
               <Truck className="w-4 h-4" />
-              Porter Live Courier Telemetry
+              Borzo Live Courier Telemetry
             </span>
             <h3 className="text-base font-bold text-neutral-950 dark:text-white mt-0.5">
               Estimated Delivery: 25–40 Minutes
@@ -111,7 +111,7 @@ export default function OrderConfirmationPage({
           <div className="flex items-center gap-2 self-start sm:self-auto">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-800/50 text-xs font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Dispatching from HSR Sector 1 Hub
+              Dispatching from HAL 3rd Stage Hub
             </span>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function OrderConfirmationPage({
           {[
             { step: '1. Placed', status: 'Confirmed', done: true, time: 'Just now' },
             { step: '2. ESD Packing', status: 'In Progress', done: true, time: 'Now' },
-            { step: '3. Porter Rider', status: 'Assigning', done: false, time: 'ETA 5m' },
+            { step: '3. Borzo Rider', status: 'Assigning', done: false, time: 'ETA 5m' },
             { step: '4. Delivered', status: 'At Your Lab', done: false, time: 'ETA 30m' },
           ].map((m) => (
             <div
@@ -143,10 +143,10 @@ export default function OrderConfirmationPage({
         <div className="flex items-center justify-between p-3.5 rounded-xl bg-neutral-50 dark:bg-white/5 border border-neutral-200/80 dark:border-white/10 text-xs">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#e51e2b] text-white flex items-center justify-center font-bold font-mono">
-              P
+              B
             </div>
             <div>
-              <p className="font-bold text-neutral-900 dark:text-white">Porter Courier Rider: Manjunath K.</p>
+              <p className="font-bold text-neutral-900 dark:text-white">Borzo Courier Rider: Manjunath K.</p>
               <p className="text-[11px] text-neutral-500 dark:text-neutral-400">Honda Activa (KA-01-EQ-4492) · 4.9 ★ (1,840 trips)</p>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function OrderConfirmationPage({
               </div>
             )}
             <div className="flex justify-between">
-              <span>Porter Courier Dispatch ({order.blrZone.name})</span>
+              <span>Borzo Courier Dispatch ({order.blrZone.name})</span>
               <span className="font-mono font-medium text-neutral-900 dark:text-white">
                 {order.deliveryFee === 0 ? <span className="text-emerald-700 dark:text-emerald-400 font-bold">FREE</span> : `₹${order.deliveryFee}`}
               </span>

@@ -86,7 +86,7 @@ export function CartDrawer() {
                     <div>
                       <div className="flex justify-between text-[11px] mb-1">
                         <span className="text-gray-600">
-                          Add <strong className="text-red-600">₹{amountForFreeDelivery}</strong> more for <strong>FREE Porter Delivery</strong>
+                          Add <strong className="text-red-600">₹{amountForFreeDelivery}</strong> more for <strong>FREE Borzo Delivery</strong>
                         </span>
                         <span className="font-semibold text-gray-400">{freeDeliveryPercent}%</span>
                       </div>
@@ -100,7 +100,7 @@ export function CartDrawer() {
                   ) : (
                     <div className="flex items-center gap-1.5 text-emerald-700 font-semibold text-[11px]">
                       <Sparkles className="h-3.5 w-3.5" />
-                      <span>Unlocked Free Same-Day Porter Delivery in Bengaluru!</span>
+                      <span>Unlocked Free Same-Day Borzo Delivery in Bengaluru!</span>
                     </div>
                   )}
                 </div>
@@ -180,7 +180,7 @@ export function CartDrawer() {
                         <Bike className="h-4 w-4 text-red-600" />
                         <div>
                           <span className="font-semibold text-gray-900 block">
-                            Porter 2-Wheeler ({selectedZone.name})
+                            Borzo 2-Wheeler ({selectedZone.name})
                           </span>
                           <span className="text-[10px] text-gray-500">
                             Est. {selectedZone.deliveryEtaMinutes}m direct courier

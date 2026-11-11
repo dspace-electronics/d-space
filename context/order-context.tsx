@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Order, OrderStatus, BLRZone, CartItem } from '@/lib/types';
 import { INITIAL_ORDERS } from '@/lib/mock-data';
 import { generatePorterTrackingId, getRandomPorterRider, getMilestonesForStatus } from '@/lib/porter';
+import { generateBorzoTrackingId, getRandomBorzoRider, isBorzoService } from '@/lib/borzo';
 import { createOrderAction, updateOrderStatusAction, getOrdersAction } from '@/app/actions';
 import { useAuth } from './auth-context';
 
@@ -18,7 +19,7 @@ interface OrderContextType {
     subtotal: number;
     deliveryFee: number;
     total: number;
-    courierService: 'porter_2wheeler' | 'porter_express';
+    courierService: 'porter_2wheeler' | 'porter_express' | 'borzo_2wheeler' | string;
     paymentMethod: 'razorpay_upi' | 'razorpay_card' | 'razorpay_netbanking' | 'cod';
     paymentId?: string;
   }) => Promise<Order>;
@@ -143,10 +144,18 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addOrder = (order: Order) => {
+    const isBorzo = isBorzoService(order.courierService || order.shippingMethod);
+    const trackingId =
+      order.porterTrackingId ||
+      order.borzoTrackingId ||
+      (isBorzo ? generateBorzoTrackingId() : generatePorterTrackingId());
+    const rider = order.porterRider || (isBorzo ? getRandomBorzoRider() : getRandomPorterRider());
+
     const fullOrder: Order = {
       ...order,
-      porterTrackingId: order.porterTrackingId || generatePorterTrackingId(),
-      porterRider: order.porterRider || getRandomPorterRider(),
+      porterTrackingId: trackingId,
+      borzoTrackingId: isBorzo ? trackingId : undefined,
+      porterRider: rider,
       deliveryMilestones:
         order.deliveryMilestones && order.deliveryMilestones.length > 0
           ? order.deliveryMilestones
@@ -180,13 +189,14 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     subtotal: number;
     deliveryFee: number;
     total: number;
-    courierService: 'porter_2wheeler' | 'porter_express';
+    courierService: 'porter_2wheeler' | 'porter_express' | 'borzo_2wheeler' | string;
     paymentMethod: 'razorpay_upi' | 'razorpay_card' | 'razorpay_netbanking' | 'cod';
     paymentId?: string;
   }): Promise<Order> => {
     const orderNum = Math.floor(1000 + Math.random() * 9000);
-    const trackingId = generatePorterTrackingId();
-    const rider = getRandomPorterRider();
+    const isBorzo = isBorzoService(params.courierService);
+    const trackingId = isBorzo ? generateBorzoTrackingId() : generatePorterTrackingId();
+    const rider = isBorzo ? getRandomBorzoRider() : getRandomPorterRider();
     const orderId = `dsp-ord-${orderNum}`;
 
     const newOrder: Order = {
@@ -205,13 +215,14 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
       shippingMethod: params.courierService,
       courierService: params.courierService,
       porterTrackingId: trackingId,
+      borzoTrackingId: isBorzo ? trackingId : undefined,
       porterRider: rider,
       status: 'placed',
       paymentMethod: params.paymentMethod,
       paymentStatus: params.paymentMethod === 'cod' ? 'pending' : 'paid',
       paymentId: params.paymentId || `pay_rzp_${Math.random().toString(36).substring(2, 9)}`,
       createdAt: new Date().toISOString(),
-      estimatedDeliveryTime: `In ${params.blrZone.deliveryEtaMinutes} mins via Porter`,
+      estimatedDeliveryTime: `In ${params.blrZone.deliveryEtaMinutes} mins via ${isBorzo ? 'Borzo' : 'Porter'}`,
       deliveryMilestones: getMilestonesForStatus('placed', new Date().toISOString()),
     };
 
@@ -242,7 +253,7 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     if (role !== 'admin') {
       return {
         success: false,
-        error: 'Permission Denied: Only Dspace Dispatch Operations can update live Porter status.',
+        error: 'Permission Denied: Only Dspace Dispatch Operations can update live Borzo status.',
       };
     }
 

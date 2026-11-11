@@ -20,13 +20,13 @@ const TESTIMONIALS: Testimonial[] = [
   {
     id: 't-1',
     quote:
-      'We fried an ESP32-S3 board during battery BMS firmware testing at 4:30 PM. Dspace had a replacement at our Koramangala lab in 28 minutes via Porter. Unbelievable response time.',
+      'We fried an ESP32-S3 board during battery BMS firmware testing at 4:30 PM. Dspace had a replacement at our Koramangala lab in 28 minutes via Borzo. Unbelievable response time.',
     author: 'Siddharth Nair',
     role: 'Embedded Systems Lead, EV Startup',
     location: 'Koramangala 4th Block',
     labTag: 'BMS Firmware Lab',
     rating: 5,
-    deliveryEta: '28m Porter Delivery',
+    deliveryEta: '28m Borzo Delivery',
   },
   {
     id: 't-2',
@@ -59,7 +59,7 @@ const TESTIMONIALS: Testimonial[] = [
     location: 'Indiranagar 100ft Rd',
     labTag: 'Avionics & Telemetry',
     rating: 5,
-    deliveryEta: '35m Porter Delivery',
+    deliveryEta: '35m Borzo Delivery',
   },
   {
     id: 't-5',
@@ -70,7 +70,7 @@ const TESTIMONIALS: Testimonial[] = [
     location: 'Electronic City Phase 1',
     labTag: 'Industrial IoT',
     rating: 5,
-    deliveryEta: '42m Porter Delivery',
+    deliveryEta: '42m Borzo Delivery',
   },
   {
     id: 't-6',
@@ -81,7 +81,7 @@ const TESTIMONIALS: Testimonial[] = [
     location: 'Bellandur Outer Ring Rd',
     labTag: 'Bio-Telemetry',
     rating: 5,
-    deliveryEta: '31m Porter Delivery',
+    deliveryEta: '31m Borzo Delivery',
   },
 ];
 

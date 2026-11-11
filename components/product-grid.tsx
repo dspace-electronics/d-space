@@ -38,7 +38,7 @@ export function ProductGrid() {
             Electronic Components Catalog
           </h2>
           <p className="text-xs text-gray-500 mt-1">
-            All items stored in anti-static bins at HSR Layout for immediate Porter courier dispatch.
+            All items stored in anti-static bins at HSR Layout for immediate Borzo courier dispatch.
           </p>
         </div>
 

@@ -23,6 +23,7 @@ import {
   Zap,
   Crosshair,
   Loader2,
+  Bike,
 } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { useOrder } from '@/context/order-context';
@@ -213,7 +214,7 @@ export default function CheckoutPage() {
         paymentId: `cod_${orderNum}`,
         porterTrackingId: trackingId,
         porterRider: rider,
-        estimatedDeliveryTime: `In ${selectedZone.deliveryEtaMinutes} mins via Porter`,
+        estimatedDeliveryTime: `In ${selectedZone.deliveryEtaMinutes} mins via Borzo`,
         deliveryMilestones: getMilestonesForStatus('placed', new Date().toISOString()),
       };
 
@@ -260,7 +261,7 @@ export default function CheckoutPage() {
           paymentId,
           porterTrackingId: trackingId,
           porterRider: rider,
-          estimatedDeliveryTime: `In ${selectedZone.deliveryEtaMinutes} mins via Porter`,
+          estimatedDeliveryTime: `In ${selectedZone.deliveryEtaMinutes} mins via Borzo`,
           deliveryMilestones: getMilestonesForStatus('placed', new Date().toISOString()),
         };
 
@@ -374,7 +375,7 @@ export default function CheckoutPage() {
               <div>
                 <h3 className="text-lg font-bold text-neutral-950 dark:text-white">Customer &amp; Contact Information</h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                  We use your phone number for live Porter courier SMS updates.
+                  We use your phone number for live Borzo courier SMS updates.
                 </p>
               </div>
 
@@ -628,57 +629,67 @@ export default function CheckoutPage() {
                 />
               </div>
 
-              {/* Shipping Speed Choice */}
+              {/* Borzo Shipping Speed Choice */}
               <div className="space-y-2 pt-4 border-t border-neutral-200 dark:border-white/10">
                 <label className="block text-xs font-bold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider">
-                  Courier Option
+                  Courier Option (Borzo On-Demand 2-Wheeler)
                 </label>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   <label
-                    onClick={() => setCourierOption('porter_2wheeler')}
-                    className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
-                      courierOption === 'porter_2wheeler'
-                        ? 'border-neutral-400 dark:border-white/30 bg-neutral-100 dark:bg-white/15 shadow-xs'
+                    onClick={() => setCourierOption('borzo_2wheeler')}
+                    className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer transition-all ${
+                      courierOption === 'borzo_2wheeler'
+                        ? 'border-emerald-500/70 dark:border-emerald-400/70 bg-emerald-50/50 dark:bg-emerald-500/10 shadow-xs'
                         : 'border-neutral-200 dark:border-white/10 bg-neutral-50/70 dark:bg-white/5 hover:border-neutral-300 dark:hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <Truck className="w-4 h-4 text-[#e51e2b]" />
+                      <Bike className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                       <div>
-                        <p className="text-xs font-bold text-neutral-950 dark:text-white">
-                          Porter 2-Wheeler Direct Dispatch
-                        </p>
-                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                          Estimated ETA: {selectedZone.deliveryEtaMinutes} minutes from HAL Hub
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs font-bold text-neutral-950 dark:text-white">
+                            Borzo Standard 2-Wheeler Dispatch
+                          </p>
+                          <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded border border-emerald-300 dark:border-emerald-700/50">
+                            Recommended
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                          Direct hyper-local bike dispatch from HAL Central Hub (~{selectedZone.deliveryEtaMinutes} mins)
                         </p>
                       </div>
                     </div>
                     <span className="text-xs font-mono font-bold text-neutral-950 dark:text-white">
-                      {deliveryFee === 0 ? 'FREE' : `₹${selectedZone.porterBikeFee}`}
+                      {deliveryFee === 0 ? 'FREE' : `₹${Math.max(55, selectedZone.porterBikeFee + 6)}`}
                     </span>
                   </label>
 
                   <label
-                    onClick={() => setCourierOption('porter_express')}
-                    className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
-                      courierOption === 'porter_express'
-                        ? 'border-neutral-400 dark:border-white/30 bg-neutral-100 dark:bg-white/15 shadow-xs'
+                    onClick={() => setCourierOption('borzo_express')}
+                    className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer transition-all ${
+                      courierOption === 'borzo_express'
+                        ? 'border-amber-500/70 dark:border-amber-400/70 bg-amber-50/50 dark:bg-amber-500/10 shadow-xs'
                         : 'border-neutral-200 dark:border-white/10 bg-neutral-50/70 dark:bg-white/5 hover:border-neutral-300 dark:hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <Zap className="w-4 h-4 text-amber-500 dark:text-amber-400" />
                       <div>
-                        <p className="text-xs font-bold text-neutral-950 dark:text-white">
-                          Priority Porter Express (Jump Queue)
-                        </p>
-                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                          Immediate rider assignment within 3 minutes
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs font-bold text-neutral-950 dark:text-white">
+                            Borzo Priority Direct Express (Dedicated Rider)
+                          </p>
+                          <span className="text-[10px] uppercase font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-300 dark:border-amber-700/50">
+                            VIP Fast-Track
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                          Jump queue: Rider assigned immediately within 3 mins (~{Math.max(18, selectedZone.deliveryEtaMinutes - 10)} mins)
                         </p>
                       </div>
                     </div>
                     <span className="text-xs font-mono font-bold text-neutral-950 dark:text-white">
-                      ₹{selectedZone.expressDispatchFee}
+                      ₹{Math.max(89, selectedZone.expressDispatchFee + 10)}
                     </span>
                   </label>
                 </div>
@@ -733,8 +744,8 @@ export default function CheckoutPage() {
                   },
                   {
                     id: 'cod',
-                    name: 'Cash on Porter Delivery (COD)',
-                    desc: 'Pay cash or UPI directly to the Porter rider upon arrival',
+                    name: 'Cash on Delivery (Borzo Pay on Delivery)',
+                    desc: 'Pay cash or UPI directly to the Borzo delivery rider upon arrival',
                     icon: ShieldCheck,
                   },
                 ].map((pm) => {
@@ -805,7 +816,7 @@ export default function CheckoutPage() {
               <div>
                 <h3 className="text-lg font-bold text-neutral-950 dark:text-white">Review &amp; Place Your Hardware Order</h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                  Verify dispatch address and click &ldquo;Confirm &amp; Place Order&rdquo; to dispatch the Porter rider.
+                  Verify dispatch address and click &ldquo;Confirm &amp; Place Order&rdquo; to dispatch the Borzo rider.
                 </p>
               </div>
 
@@ -883,7 +894,7 @@ export default function CheckoutPage() {
                   className="flex items-center gap-2 bg-[#e51e2b] hover:bg-[#c91823] active:scale-95 text-white text-xs font-bold px-8 py-3.5 rounded-xl transition-all shadow-md shadow-[#e51e2b]/20 disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? (
-                    <span>Assigning Porter Rider...</span>
+                    <span>Assigning Borzo Rider...</span>
                   ) : (
                     <>
                       <Check className="w-4 h-4" />
@@ -956,7 +967,7 @@ export default function CheckoutPage() {
               )}
 
               <div className="flex justify-between">
-                <span>Porter Courier ({selectedZone.name})</span>
+                <span>Borzo Courier ({selectedZone.name})</span>
                 <span className="font-mono font-medium text-neutral-950 dark:text-white">
                   {deliveryFee === 0 ? <span className="text-emerald-600 dark:text-emerald-400 font-bold">FREE</span> : `₹${deliveryFee}`}
                 </span>

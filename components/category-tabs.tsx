@@ -1,16 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Cpu, Activity, BatteryCharging, Tv, Wrench, Layers, Zap } from 'lucide-react';
+import { Cpu, Wifi, Layers, Terminal, Zap } from 'lucide-react';
 import { useProducts } from '@/context/product-context';
 
 const CATEGORIES = [
-  { id: 'all', name: 'All Components', icon: Layers },
-  { id: 'microcontrollers', name: 'Microcontrollers & SBCs', icon: Cpu },
-  { id: 'sensors', name: 'Sensors & IMUs', icon: Activity },
-  { id: 'power', name: 'Power & Battery', icon: BatteryCharging },
-  { id: 'actuators', name: 'Displays & Relays', icon: Tv },
-  { id: 'tools', name: 'Lab & Soldering', icon: Wrench },
+  { id: 'all', name: 'All Boards', icon: Layers },
+  { id: 'arduino', name: 'Arduino', icon: Cpu },
+  { id: 'esp32', name: 'ESP32 & Wireless', icon: Wifi },
+  { id: 'stm32', name: 'STM32 ARM', icon: Layers },
+  { id: 'raspberry-pi', name: 'Raspberry Pi', icon: Terminal },
 ];
 
 export function CategoryTabs() {

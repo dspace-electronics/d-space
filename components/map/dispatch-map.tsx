@@ -61,9 +61,9 @@ export function getDispatchEstimate(distanceKm: number) {
     return {
       etaMinutes: 45,
       etaLabel: '45 – 60 Mins',
-      slaType: 'Hyperlocal Porter Express',
-      courier: 'Porter 2-Wheeler Direct',
-      fee: 49,
+      slaType: 'Hyperlocal Borzo Express',
+      courier: 'Borzo 2-Wheeler Direct',
+      fee: 55,
       isServiceablePorter: true,
       tier: 'Direct Workbench Dispatch (<5km)',
     };
@@ -72,7 +72,7 @@ export function getDispatchEstimate(distanceKm: number) {
       etaMinutes: 75,
       etaLabel: '60 – 90 Mins',
       slaType: 'Bengaluru Fast Courier',
-      courier: 'Porter 2-Wheeler Dedicated',
+      courier: 'Borzo 2-Wheeler Dedicated',
       fee: 79,
       isServiceablePorter: true,
       tier: 'Bengaluru Core Hubs (5-12km)',
@@ -82,7 +82,7 @@ export function getDispatchEstimate(distanceKm: number) {
       etaMinutes: 150,
       etaLabel: '2 – 3 Hours',
       slaType: 'Metro Bengaluru Courier',
-      courier: 'Porter 2-Wheeler Express',
+      courier: 'Borzo 2-Wheeler Express',
       fee: 119,
       isServiceablePorter: true,
       tier: 'Greater Bengaluru Tech Parks (12-25km)',
@@ -91,8 +91,8 @@ export function getDispatchEstimate(distanceKm: number) {
     return {
       etaMinutes: 240,
       etaLabel: '3 – 5 Hours',
-      slaType: 'Extended Bengaluru Porter',
-      courier: 'Porter Priority Logistics',
+      slaType: 'Extended Bengaluru Borzo',
+      courier: 'Borzo Priority Logistics',
       fee: 149,
       isServiceablePorter: true,
       tier: 'Outer Bengaluru & Suburbs (25-45km)',
@@ -127,7 +127,7 @@ export function DispatchMap({
   showCardDetails = true,
   className = '',
   height = '420px',
-  title = 'Live Bengaluru Porter Dispatch Map',
+  title = 'Live Bengaluru Borzo Dispatch Map',
 }: DispatchMapProps) {
   const { isDark } = useTheme();
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -329,7 +329,7 @@ export function DispatchMap({
         <div style="font-family: sans-serif; padding: 4px; font-size: 12px;">
           <b style="color: #6366f1;">Dspace Silicon Dispatch Hub</b><br/>
           <span>${WAREHOUSE_COORDS.address}</span><br/>
-          <small style="color: #10b981; font-weight: 600;">⚡ Active Porter Rider Bay</small>
+          <small style="color: #10b981; font-weight: 600;">⚡ Active Borzo Rider Bay</small>
         </div>
       `);
 
@@ -442,7 +442,7 @@ export function DispatchMap({
             <h4 className="text-sm font-bold text-neutral-950 dark:text-white flex items-center gap-2">
               <span>{title}</span>
               <span className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Porter Dispatch
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Borzo Dispatch
               </span>
             </h4>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -497,7 +497,7 @@ export function DispatchMap({
 
 
 
-      {/* Live Distance & Porter Dispatch Calculation Card */}
+      {/* Live Distance & Borzo Dispatch Calculation Card */}
       {showCardDetails && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
           {/* Distance & SLA */}
@@ -514,7 +514,7 @@ export function DispatchMap({
             </span>
           </div>
 
-          {/* Porter ETA */}
+          {/* Borzo ETA */}
           <div className="bg-white dark:bg-[#0e1117] border border-neutral-200 dark:border-white/10 p-4 rounded-2xl">
             <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 block">
               Estimated Delivery Time
@@ -532,7 +532,7 @@ export function DispatchMap({
           {/* Delivery Fee */}
           <div className="bg-white dark:bg-[#0e1117] border border-neutral-200 dark:border-white/10 p-4 rounded-2xl">
             <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 block">
-              Porter Courier Fee
+              Borzo Courier Fee
             </span>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-2xl font-extrabold text-neutral-950 dark:text-white font-mono">

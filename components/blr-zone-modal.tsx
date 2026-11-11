@@ -52,7 +52,7 @@ export function BLRZoneModal({ isOpen, onClose }: BLRZoneModalProps) {
                     Select Bangalore Delivery Hub
                   </h3>
                   <p className="text-xs text-gray-500">
-                    Dispatched from Dspace Central Hub (1273, First Floor, 2nd Cross, HAL 3rd Stage, New Thippasandra PO, Bengaluru 560075) via Porter
+                    Dispatched from Dspace Central Hub (1273, First Floor, 2nd Cross, HAL 3rd Stage, New Thippasandra PO, Bengaluru 560075) via Borzo
                   </p>
                 </div>
               </div>
@@ -110,7 +110,7 @@ export function BLRZoneModal({ isOpen, onClose }: BLRZoneModalProps) {
                           <span>{zone.deliveryEtaMinutes} mins</span>
                         </div>
                         <span className="text-[11px] text-gray-500">
-                          Porter: ₹{zone.porterBikeFee}
+                          Borzo: ₹{zone.porterBikeFee}
                         </span>
                       </div>
 
@@ -136,7 +136,7 @@ export function BLRZoneModal({ isOpen, onClose }: BLRZoneModalProps) {
                 <span>Orders before 7:00 PM qualify for guaranteed same-day dispatch</span>
               </span>
               <span className="font-semibold text-emerald-700">
-                Free shipping over ₹999
+                Free shipping over ₹1,499
               </span>
             </div>
           </motion.div>

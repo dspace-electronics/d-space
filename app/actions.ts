@@ -11,7 +11,11 @@ const globalForProducts = globalThis as unknown as {
   __DSPACE_PRODUCTS__?: Product[];
 };
 
-if (!globalForProducts.__DSPACE_PRODUCTS__) {
+if (
+  !globalForProducts.__DSPACE_PRODUCTS__ ||
+  globalForProducts.__DSPACE_PRODUCTS__.length !== INITIAL_PRODUCTS.length ||
+  globalForProducts.__DSPACE_PRODUCTS__[0]?.imageUrl !== INITIAL_PRODUCTS[0]?.imageUrl
+) {
   globalForProducts.__DSPACE_PRODUCTS__ = [...INITIAL_PRODUCTS];
 }
 
@@ -59,7 +63,10 @@ export async function getProductsAction(): Promise<{ success: boolean; data: Pro
       console.warn('[Server Action] Drizzle fetch products error, using cached catalog:', err);
     }
   }
-  const currentProducts = globalForProducts.__DSPACE_PRODUCTS__ || INITIAL_PRODUCTS;
+  // Keep server-side memory synced with latest catalog
+  const adminAdded = (globalForProducts.__DSPACE_PRODUCTS__ || []).filter((p) => p.id.startsWith('dsp-'));
+  const currentProducts = [...INITIAL_PRODUCTS, ...adminAdded];
+  globalForProducts.__DSPACE_PRODUCTS__ = currentProducts;
   return { success: true, data: currentProducts, source: 'mock' };
 }
 
@@ -289,7 +296,7 @@ export async function getOrdersAction(
             paymentStatus: r.paymentStatus as any,
             paymentId: r.paymentId || undefined,
             createdAt: createdAtIso,
-            estimatedDeliveryTime: `In ${zone.deliveryEtaMinutes} mins via Porter`,
+            estimatedDeliveryTime: `In ${zone.deliveryEtaMinutes} mins via Borzo`,
             deliveryMilestones: getMilestonesForStatus(r.status as OrderStatus, createdAtIso),
           };
         });

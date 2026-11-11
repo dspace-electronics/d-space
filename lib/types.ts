@@ -1,4 +1,8 @@
 export type ProductCategory =
+  | 'arduino'
+  | 'esp32'
+  | 'stm32'
+  | 'raspberry-pi'
   | 'microcontrollers'
   | 'sensors'
   | 'power'
@@ -116,7 +120,7 @@ export interface Order {
   deliveryFee: number;
   total: number;
   status: OrderStatus;
-  shippingMethod: 'porter_2wheeler' | 'porter_express' | 'standard_courier' | string;
+  shippingMethod: 'porter_2wheeler' | 'porter_express' | 'borzo_2wheeler' | 'standard_courier' | string;
   courierService?: string;
   customerName: string;
   customerEmail?: string;
@@ -127,6 +131,7 @@ export interface Order {
   paymentStatus: 'paid' | 'pending';
   paymentId?: string;
   porterTrackingId?: string;
+  borzoTrackingId?: string;
   porterRider?: OrderRider;
   estimatedDeliveryTime?: string;
   deliveryMilestones?: OrderMilestone[];

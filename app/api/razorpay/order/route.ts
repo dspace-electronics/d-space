@@ -56,10 +56,13 @@ export async function POST(req: NextRequest) {
       const discount = promoPercent > 0 ? Math.round((subtotal * promoPercent) / 100) : 0;
       const discountedSubtotal = Math.max(0, subtotal - discount);
 
-      // Delivery calculation (Free if subtotal >= 999)
+      // Delivery calculation (Free if subtotal >= 1499)
       const zone = BLR_ZONES.find((z) => z.id === blrZoneId) || BLR_ZONES[0];
-      const isFreeDelivery = subtotal >= 999;
-      const baseCourierFee = courierOption === 'porter_express' ? zone.expressDispatchFee : zone.porterBikeFee;
+      const isFreeDelivery = subtotal >= 1499;
+      const baseCourierFee =
+        courierOption === 'borzo_express'
+          ? Math.max(89, zone.expressDispatchFee + 10)
+          : Math.max(55, zone.porterBikeFee + 6);
       const deliveryFee = isFreeDelivery ? 0 : baseCourierFee;
 
       const serverCalculatedTotal = discountedSubtotal + deliveryFee;

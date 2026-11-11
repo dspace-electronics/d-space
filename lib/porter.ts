@@ -45,7 +45,7 @@ export function calculatePorterDelivery(zone: BLRZone, isExpress: boolean = fals
   const etaMinutes = isExpress ? Math.max(18, zone.deliveryEtaMinutes - 10) : zone.deliveryEtaMinutes;
   
   return {
-    serviceName: isExpress ? 'Porter Priority Express' : 'Porter 2-Wheeler (Cheapest)',
+    serviceName: isExpress ? 'Borzo Priority Express' : 'Borzo 2-Wheeler (Standard)',
     fee: baseFee,
     etaMinutes,
     vehicleType: isExpress ? 'Dedicated Electric Bike' : 'Standard 2-Wheeler Bike',
@@ -87,11 +87,11 @@ export function getMilestonesForStatus(status: OrderStatus, _createdAtStr?: stri
       desc: 'Components sealed in ESD shielding pouches with barcode labeling.',
     },
     driver_assigned: {
-      title: 'Porter 2-Wheeler Partner Assigned',
+      title: 'Borzo 2-Wheeler Partner Assigned',
       desc: 'Driver notified and en route to HSR Hub for pickup.',
     },
     in_transit: {
-      title: 'Out for Delivery (Live Porter Route)',
+      title: 'Out for Delivery (Live Borzo Route)',
       desc: 'Driver en route to your tech hub / lab destination.',
     },
     delivered: {

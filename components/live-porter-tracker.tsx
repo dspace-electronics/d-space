@@ -52,6 +52,9 @@ export function LivePorterTracker({ order: initialOrder }: LivePorterTrackerProp
     totalDeliveries: 3412,
   };
 
+  const isBorzo = order.courierService === 'borzo_2wheeler' || (order.shippingMethod && order.shippingMethod.includes('borzo'));
+  const courierBrand = isBorzo ? 'Borzo' : 'Porter';
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
       {/* Top Breadcrumb & Status */}
@@ -60,17 +63,17 @@ export function LivePorterTracker({ order: initialOrder }: LivePorterTrackerProp
           <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
             <span className="font-mono font-bold text-gray-900">#{order.orderNumber}</span>
             <span>•</span>
-            <span>Porter Tracking ID: <strong className="font-mono text-red-600">{order.porterTrackingId}</strong></span>
+            <span>{courierBrand} Tracking ID: <strong className="font-mono text-red-600">{order.borzoTrackingId || order.porterTrackingId}</strong></span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-950 display-title">
-            Live Porter 2-Wheeler Tracking
+            Live {courierBrand} 2-Wheeler Tracking
           </h1>
         </div>
 
         {/* Live Delivery Pulse Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold shadow-2xs">
           <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-600 beacon-pulse" />
-          <span>{order.status === 'delivered' ? 'Package Delivered' : 'Porter Driver Moving on BLR Route'}</span>
+          <span>{order.status === 'delivered' ? 'Package Delivered' : `${courierBrand} Driver Moving on BLR Route`}</span>
         </div>
       </div>
 
@@ -158,7 +161,7 @@ export function LivePorterTracker({ order: initialOrder }: LivePorterTrackerProp
                     </div>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-400 mt-1 bg-black/80 px-2 py-0.5 rounded whitespace-nowrap">
-                    Porter Bike • Moving (~32 km/h)
+                    Borzo Bike • Moving (~32 km/h)
                   </span>
                 </div>
               )}
@@ -180,7 +183,7 @@ export function LivePorterTracker({ order: initialOrder }: LivePorterTrackerProp
             <div className="mt-4 pt-3 border-t border-gray-800 flex items-center justify-between text-[11px] text-gray-400">
               <span className="flex items-center gap-1.5">
                 <Bike className="h-3.5 w-3.5 text-red-500" />
-                <span>Porter 2-Wheeler Courier • Dispatched via Bengaluru arterial network</span>
+                <span>Borzo 2-Wheeler Courier • Dispatched via Bengaluru arterial network</span>
               </span>
               <span className="font-mono text-gray-300">
                 Speed: 34 km/h • Traffic: Normal
@@ -229,7 +232,7 @@ export function LivePorterTracker({ order: initialOrder }: LivePorterTrackerProp
           <div className="rounded-3xl bg-white p-5 sm:p-6 shadow-xs border border-gray-200/90">
             <div className="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
               <span className="text-[10px] font-bold uppercase tracking-wider text-red-600">
-                Porter Delivery Partner
+                Borzo Delivery Partner
               </span>
               <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
                 Verified Rider
@@ -305,7 +308,7 @@ export function LivePorterTracker({ order: initialOrder }: LivePorterTrackerProp
 
             <div className="pt-3 border-t border-gray-100 mt-3 text-xs space-y-1">
               <div className="flex justify-between text-gray-500">
-                <span>Porter Courier Fee</span>
+                <span>Borzo Courier Fee</span>
                 <span>₹{order.deliveryFee}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-gray-950 pt-1">
