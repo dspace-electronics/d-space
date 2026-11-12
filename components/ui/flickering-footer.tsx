@@ -251,46 +251,82 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
             offCtx.textBaseline = "middle";
 
             const isNarrow = width < 820;
+            const fontFamily = '"SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif';
+
             if (isNarrow && text.includes(" ")) {
               const parts = text.split(" ");
-              const line1 = parts[0];
-              const line2 = parts.slice(1).join(" ");
-              const responsiveFontSize = Math.min(
-                Math.floor((width / Math.max(line1.length, line2.length)) * 0.95),
-                Math.floor(height * 0.36),
-                44
+              const line1 = parts[0]; // "DSPACE"
+              const line2 = parts.slice(1).join(" "); // "ELECTRONICS"
+
+              // Size Line 1 (brand name) and Line 2 (descriptor) proportionally
+              // so "DSPACE" is bold, prominent, and legible on all mobile devices (Pixel, iPhone, etc.)
+              const fontLine1 = Math.min(
+                Math.floor((width / 6.8) * 0.95),
+                Math.floor(height * 0.40),
+                50
               );
-              offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+              const fontLine2 = Math.min(
+                Math.floor((width / 12.2) * 0.95),
+                Math.floor(height * 0.28),
+                32
+              );
+
+              // 1. Draw Line 1: DSPACE with open counters and generous tracking
+              offCtx.font = `800 ${fontLine1}px ${fontFamily}`;
               if ("letterSpacing" in offCtx) {
-                (offCtx as any).letterSpacing = "0.08em";
+                (offCtx as any).letterSpacing = "0.14em";
               }
-              offCtx.fillText(line1, width / 2, height * 0.34);
-              offCtx.fillText(line2, width / 2, height * 0.68);
+              offCtx.fillText(line1, width / 2, height * 0.36);
+
+              // 2. Draw Line 2: ELECTRONICS cleanly underneath
+              offCtx.font = `800 ${fontLine2}px ${fontFamily}`;
+              if ("letterSpacing" in offCtx) {
+                (offCtx as any).letterSpacing = "0.09em";
+              }
+              offCtx.fillText(line2, width / 2, height * 0.70);
             } else {
               const responsiveFontSize = Math.min(
                 Math.floor((width / (text.length + 1)) * 1.35),
-                Math.floor(height * 0.56),
-                88
+                Math.floor(height * 0.52),
+                84
               );
-              offCtx.font = `900 ${responsiveFontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+              offCtx.font = `800 ${responsiveFontSize}px ${fontFamily}`;
               if ("letterSpacing" in offCtx) {
-                (offCtx as any).letterSpacing = "0.07em";
+                (offCtx as any).letterSpacing = "0.08em";
               }
               offCtx.fillText(text, width / 2, height / 2);
             }
 
             const imgData = offCtx.getImageData(0, 0, offscreen.width, offscreen.height).data;
             const cellPitch = (squareSize + gridGap) * dpr;
+            const dotRadius = Math.max(1, Math.floor((squareSize * dpr) * 0.4));
 
             for (let i = 0; i < cols; i++) {
               for (let j = 0; j < rows; j++) {
-                const sampleX = Math.min(canvas.width - 1, Math.floor((i + 0.5) * cellPitch));
-                const sampleY = Math.min(canvas.height - 1, Math.floor((j + 0.5) * cellPitch));
-                const alphaIdx = (sampleY * canvas.width + sampleX) * 4 + 3;
+                const cx = Math.min(canvas.width - 1, Math.max(0, Math.floor((i + 0.5) * cellPitch)));
+                const cy = Math.min(canvas.height - 1, Math.max(0, Math.floor((j + 0.5) * cellPitch)));
+                const centerAlpha = imgData[(cy * canvas.width + cx) * 4 + 3];
 
                 // Check alpha threshold to identify text dots
-                if (imgData[alphaIdx] > 40) {
+                // Rejects subpixel anti-aliasing fuzz so 'S' and 'P' counters stay open and crisp on Pixel/Android
+                if (centerAlpha >= 90) {
                   textMask[i * rows + j] = 1;
+                } else if (centerAlpha >= 48) {
+                  // For edge pixels, only activate if adjacent subpixels confirm a solid stroke
+                  let hitCount = 0;
+                  const offsets = [-dotRadius, dotRadius];
+                  for (const ox of offsets) {
+                    for (const oy of offsets) {
+                      const sx = Math.min(canvas.width - 1, Math.max(0, cx + ox));
+                      const sy = Math.min(canvas.height - 1, Math.max(0, cy + oy));
+                      if (imgData[(sy * canvas.width + sx) * 4 + 3] >= 80) {
+                        hitCount++;
+                      }
+                    }
+                  }
+                  if (hitCount >= 2) {
+                    textMask[i * rows + j] = 1;
+                  }
                 }
               }
             }
