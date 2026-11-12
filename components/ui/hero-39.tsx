@@ -20,7 +20,7 @@ function TypewriterHighlight({ isDark }: { isDark: boolean }) {
       strings: [
         'Delivered in Hours.',
         'At Lightspeed.',
-        'To Your Lab Bench.',
+        'To Your Lab.',
         'Zero Waiting.',
       ],
       typeSpeed: 55,
@@ -40,13 +40,13 @@ function TypewriterHighlight({ isDark }: { isDark: boolean }) {
 
   return (
     <span
-      className={`italic font-normal tracking-normal inline-block ${
+      className={`italic font-normal tracking-normal inline-block whitespace-nowrap ${
         isDark
           ? 'bg-gradient-to-r from-white via-[#ffa4ab] to-[#ff2b3b] bg-clip-text text-transparent drop-shadow-[0_0_28px_rgba(255,255,255,0.4)]'
           : 'bg-gradient-to-r from-[#e51e2b] via-[#f97316] to-[#eab308] bg-clip-text text-transparent font-medium drop-shadow-[0_2px_14px_rgba(229,30,43,0.15)]'
       }`}
     >
-      <span ref={el} />
+      <span ref={el} className="whitespace-nowrap inline-block" />
     </span>
   );
 }
@@ -246,12 +246,12 @@ export function Hero39({
           {/* Main Title with The Seasons Style Luxury Serif Typography & Typewriter */}
           <motion.h1
             variants={itemVariants}
-            className={`mt-6 text-[2.75rem] sm:text-[3.75rem] md:text-[4.65rem] lg:text-[5.35rem] leading-[1.05] font-display text-balance ${
+            className={`mt-6 text-[2.1rem] xs:text-[2.5rem] sm:text-[3.75rem] md:text-[4.65rem] lg:text-[5.35rem] leading-[1.08] font-display text-balance ${
               isDark ? 'text-white' : 'text-neutral-950'
             }`}
           >
             <span className="block font-normal tracking-[-0.015em]">{headingLine1}</span>
-            <span className="block mt-1 min-h-[1.15em]">
+            <span className="block mt-1 sm:mt-1.5 min-h-[1.25em] whitespace-nowrap overflow-visible">
               <TypewriterHighlight isDark={isDark} />
             </span>
           </motion.h1>
